@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Edison · Your AI Butler</title>
+<meta name="description" content="Edison is your own AI butler. Talk to him, he talks back, and he runs your house, your day and your AI team from your desk. He asks before he spends a cent.">
+<meta name="theme-color" content="#060418">
+<!-- the live address is heyedison.ai; change SITE here and in build-blog.mjs together -->
+<link rel="canonical" href="https://heyedison.ai/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Edison">
+<meta property="og:title" content="Edison · Your AI Butler">
+<meta property="og:description" content="Talk to him, he talks back, and he runs your house, your day and your AI team. Try the demo and join the crew.">
+<meta property="og:url" content="https://heyedison.ai/">
+<meta property="og:image" content="https://heyedison.ai/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Edison, a glowing globe of rainbow dots, next to the words Your AI butler.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" type="application/rss+xml" title="The Edison log" href="/blog/feed.xml">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","name":"Edison","url":"https://heyedison.ai/","logo":"https://heyedison.ai/icon-512.png","founder":{"@type":"Person","name":"Graham Lucht"}},{"@type":"SoftwareApplication","name":"Edison","applicationCategory":"ProductivityApplication","operatingSystem":"Windows","description":"A voice AI chief of staff that runs on your own PC. He hears you, talks back, runs your AI team and your smart home, and asks before he spends.","url":"https://heyedison.ai/"}]}</script>
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800&family=Saira+Condensed:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }</script>
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<canvas id="field" aria-hidden="true"></canvas>
+
+<!-- Top bar: an LCARS strip with an elbow on the left -->
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="#top" aria-label="Edison, back to top">
+      <span class="brand-elbow" aria-hidden="true"></span>
+      <span class="mark" aria-hidden="true">EDIS<span class="o"><canvas class="markO" width="96" height="96"></canvas></span>N</span>
+    </a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#try">Try him</a>
+      <a href="#day">His day</a>
+      <a href="#safe">Safety</a>
+      <a href="#yours">Make him yours</a>
+      <a href="/blog/">Blog</a>
+    </nav>
+    <a class="pill pill-pink top-cta" href="#join">Join the crew</a>
+  </div>
+  <!-- the board's strip of colour blocks -->
+  <div class="strip" aria-hidden="true"><i style="--w:64px;background:#FF3D99"></i><i style="--w:28px;background:#FFB020"></i><i class="grow" style="background:#9C3DFF"></i><i style="--w:44px;background:#33D6FF"></i><i style="--w:18px;background:#B6FF3B"></i><i style="--w:90px;background:#7A2FB0"></i><i style="--w:30px;background:#FF3D5A"></i></div>
+</header>
+
+<main id="main">
+
+<!-- HERO -->
+<section class="hero" id="top" aria-labelledby="hero-title">
+  <div class="sky" aria-hidden="true"></div>
+  <div class="hero-globe" id="heroGlobe"></div>
+  <div class="hero-copy">
+    <p class="mark mark-hero" aria-hidden="true">EDIS<span class="o"><canvas class="markO" width="192" height="192"></canvas></span>N</p>
+    <p class="kicker"><span class="kdot" aria-hidden="true"></span>AI butler · runs on your PC</p>
+    <h1 id="hero-title">The AI butler from the movies.<br><span class="grad">Now on your desk.</span></h1>
+    <p class="lede">Talk to him, he talks back, and he runs your house, your day and your AI team. And he asks before he spends a cent.</p>
+    <div class="cta-row">
+      <a class="pill pill-big pill-cyan" href="#try" data-wake>Talk to him</a>
+      <a class="pill pill-big pill-ghost" href="#join">Join the crew</a>
+    </div>
+    <ul class="readout" aria-label="At a glance">
+      <li><b class="mono">71 MS</b><span>to stop once he hears you cut in</span></li>
+      <li><b class="mono">LOCAL</b><span>hearing and voice on your machine</span></li>
+      <li><b class="mono">0</b><span>dollars spent without your OK</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- TRY HIM: the visitor demo, scripted with fake data -->
+<section class="band" id="try" aria-labelledby="try-title">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num mono">01</span>
+      <h2 id="try-title">Try him</h2>
+      <p>Pick something to say. This is a demo with made-up data, so nothing real is touched.</p>
+    </div>
+
+    <div class="console asleep" id="console">
+      <div class="lc lc-violet console-main">
+        <span class="lc-label bt">EDISON · DEMO</span>
+        <div class="demo-stage">
+          <p class="mark mark-demo" id="demoMark" aria-hidden="true">EDIS<span class="o"><canvas class="markO" width="96" height="96"></canvas></span>N</p>
+          <div class="demo-globe" id="demoGlobe"></div>
+          <div class="state-pill mono bt" id="stateLine" aria-hidden="true">ASLEEP</div>
+          <button class="pill pill-big pill-cyan wake" id="wakeKey" type="button">Wake Edison</button>
+        </div>
+        <div class="caption-box">
+          <p class="you" id="youLine" hidden></p>
+          <p class="him" id="himLine">He is asleep. Tap Wake Edison to start him up.</p>
+          <p class="sr-only" aria-live="polite" id="srLine"></p>
+        </div>
+        <div class="talk-row bt">
+          <button class="pill pill-amber" id="cutIn" type="button" disabled>Talk over him</button>
+          <button class="pill pill-ghost pill-sm" id="soundKey" type="button" aria-pressed="true">Sound cues on</button>
+          <button class="pill pill-ghost pill-sm" id="voiceKey" type="button" aria-pressed="true">His voice on</button>
+        </div>
+        <div class="asks" role="group" aria-label="Things to say to Edison">
+          <button class="ask bt" type="button" data-scene="today">What's on today?</button>
+          <button class="ask bt" type="button" data-scene="team">Have the GlowBop team check the launch list.</button>
+          <button class="ask bt" type="button" data-scene="spend">Boost the GlowBop ad by $40.</button>
+          <button class="ask bt" type="button" data-scene="tv">Turn on the TV and open YouTube.</button>
+          <button class="ask bt" type="button" data-scene="long">Walk me through the launch plan.</button>
+          <button class="ask bt" type="button" data-scene="check">Are you OK?</button>
+        </div>
+        <form class="talk-box bt" id="talkForm" autocomplete="off">
+          <label class="sr-only" for="talkIn">Say anything to Edison</label>
+          <input id="talkIn" type="text" maxlength="160" placeholder="Say anything to Edison...">
+          <button class="mic" id="micKey" type="button" aria-label="Talk to Edison with your microphone" hidden>
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-2.08A7 7 0 0 0 19 12h-2Z"/></svg>
+          </button>
+          <button class="pill pill-cyan" type="submit">Send</button>
+        </form>
+        <p class="fine" id="voiceNote">Captions are always on.</p>
+      </div>
+
+      <div class="lc lc-cyan console-side bt">
+        <span class="lc-label">ON HIS SCREEN</span>
+        <div class="screen" id="screen">
+          <div class="screen-empty">
+            <p class="mono">NO CARDS</p>
+            <p>Calendars, team reports and approvals show up here while he talks.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- A DAY WITH EDISON -->
+<section class="band band-deep" id="day" aria-labelledby="day-title">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num mono">02</span>
+      <h2 id="day-title">A day with Edison</h2>
+      <p>He is built for one founder running too many things at once. Here is a real day.</p>
+    </div>
+    <ol class="day">
+      <li class="day-item c-amber">
+        <span class="day-time mono">07:00</span>
+        <h3>The morning brief</h3>
+        <p>He reads your calendar and inbox and tells you what matters: two meetings, one approval waiting, three sales overnight.</p>
+      </li>
+      <li class="day-item c-violet">
+        <span class="day-time mono">09:00</span>
+        <h3>Hand a job to the team</h3>
+        <p>"Have the GlowBop team check the launch list." It opens as a chat in your Claude app. A soft chime when they report back.</p>
+      </li>
+      <li class="day-item c-cyan">
+        <span class="day-time mono">11:00</span>
+        <h3>Talk over him</h3>
+        <p>He starts a long answer, you say "just the price". He stops mid-word, hears what you said and answers that.</p>
+      </li>
+      <li class="day-item c-pink">
+        <span class="day-time mono">14:00</span>
+        <h3>He asks first</h3>
+        <p>The shop team wants to spend $40 on an ad. An amber card shows the cost and the proof. Nothing happens until you tap.</p>
+      </li>
+      <li class="day-item c-lime">
+        <span class="day-time mono">18:00</span>
+        <h3>Run the house</h3>
+        <p>"Turn on the TV and open YouTube." He reads your smart home all day and only switches what you allow.</p>
+      </li>
+      <li class="day-item c-soft">
+        <span class="day-time mono">21:00</span>
+        <h3>He looks after himself</h3>
+        <p>"Are you OK?" He checks his voice, memory and disk, fixes what is safe and tells you in one sentence.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- HEARS, SPEAKS, INTERRUPT: the sound story -->
+<section class="band" id="sound" aria-labelledby="sound-title">
+  <div class="wrap split">
+    <div>
+      <div class="sec-head">
+        <span class="sec-num mono">03</span>
+        <h2 id="sound-title">You always know what he is doing</h2>
+        <p>No staring at a screen. Four quiet sounds tell you where he is, and you can cut in any time.</p>
+      </div>
+      <div class="cues" role="group" aria-label="Play Edison's sound cues">
+        <button class="cue" type="button" data-cue="heard" data-v="b"><span class="cue-dot c-cyan" aria-hidden="true"></span><span><b>Heard you</b><small>a rising pair</small></span></button>
+        <button class="cue" type="button" data-cue="thinking" data-v="c"><span class="cue-dot c-violet" aria-hidden="true"></span><span><b>Still thinking</b><small>a quiet shimmer</small></span></button>
+        <button class="cue" type="button" data-cue="ready" data-v="c"><span class="cue-dot c-pink" aria-hidden="true"></span><span><b>Answer ready</b><small>a soft bloom</small></span></button>
+        <button class="cue" type="button" data-cue="done" data-v="b"><span class="cue-dot c-lime" aria-hidden="true"></span><span><b>Team is back</b><small>a wind chime</small></span></button>
+      </div>
+    </div>
+    <ul class="facts">
+      <li><b class="mono c-cyan">HEARS</b><span>Speech to text runs on your own computer. Brand names and your team's names are in his spelling list.</span></li>
+      <li><b class="mono c-pink">SPEAKS</b><span>A warm British voice blended from local voices, with a little room and air on top. No voice company in the middle.</span></li>
+      <li><b class="mono c-amber">INTERRUPT</b><span>Start talking and he stops in about 70 ms. Whatever he had not said yet is dropped, never acted on.</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- SAFETY -->
+<section class="band band-deep" id="safe" aria-labelledby="safe-title">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num mono">04</span>
+      <h2 id="safe-title">He asks first</h2>
+      <p>Edison works for you, on your machine, with your accounts. These rules are built in, not bolted on.</p>
+    </div>
+    <div class="safe">
+      <div class="lc lc-amber safe-card">
+        <span class="lc-label">APPROVE OR NOTHING</span>
+        <h3>Spend, post, send, delete</h3>
+        <p>Every one waits on a card with the cost and the proof. A Stop everything key halts all work at once.</p>
+      </div>
+      <div class="lc lc-cyan safe-card">
+        <span class="lc-label">VOICE STAYS LOCAL</span>
+        <h3>Hearing and speech on your PC</h3>
+        <p>Your voice is turned into text on your own computer. Only the thinking goes to your own Claude account.</p>
+      </div>
+      <div class="lc lc-violet safe-card">
+        <span class="lc-label">ONLY YOUR SCREENS</span>
+        <h3>Paired screens only</h3>
+        <p>Commands work only from screens you paired: the laptop icon, or a scan on your tablet.</p>
+      </div>
+      <div class="lc lc-pink safe-card">
+        <span class="lc-label">READ ONLY BY DEFAULT</span>
+        <h3>Look, don't touch</h3>
+        <p>Mail, calendar, files and smart home are read only until you say otherwise, one device or action at a time.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MAKE HIM YOURS -->
+<section class="band" id="yours" aria-labelledby="yours-title">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num mono">05</span>
+      <h2 id="yours-title">Make him yours</h2>
+      <p>Plug him into your day, give him a team, and set how he looks and sounds.</p>
+    </div>
+    <div class="grid3">
+      <div class="lc lc-violet tile">
+        <span class="lc-label">PLUGGED IN</span>
+        <ul class="tags">
+          <li>Gmail</li><li>Google Calendar</li><li>Google Drive</li><li>Notion</li><li>Home Assistant</li><li>Smart TV</li>
+        </ul>
+        <p>Hourly tiles on his board show what changed, so you hear about it before you go looking.</p>
+      </div>
+      <div class="lc lc-pink tile">
+        <span class="lc-label">YOUR TEAM</span>
+        <ul class="tags">
+          <li>A CEO per business</li><li>Job chats in your Claude app</li><li>Spoken reports</li><li>Monitors</li><li>Drafted posts</li>
+        </ul>
+        <p>Give each business its own AI team. Edison hands out the work and reads you the results.</p>
+      </div>
+      <div class="lc lc-cyan tile">
+        <span class="lc-label">HIS LOOK AND VOICE</span>
+        <ul class="tags">
+          <li>Dots</li><li>Rings</li><li>Wireframe</li><li>Low poly</li><li>6 color themes</li><li>Voice mixer</li><li>Your own phrases</li>
+        </ul>
+        <p>Mix his voice from several, pick his sounds, and write the lines he says when he wakes up.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUILT IN PUBLIC -->
+<section class="band band-deep" id="log" aria-labelledby="log-title">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num mono">06</span>
+      <h2 id="log-title">Built in public</h2>
+      <p>Edison is one founder's real setup, getting better every week. A few notes from the log.</p>
+    </div>
+    <blockquote class="sig">
+      <p>"I built my own JARVIS. His name is Edison. He runs my two businesses and my house from my desk, and he gets better every week."</p>
+      <footer class="mono">GRAHAM LUCHT · MAKER OF EDISON AND GLOWBOP</footer>
+    </blockquote>
+    <div class="log">
+      <article class="log-item">
+        <p class="mono log-date">OCT 26</p>
+        <h3>You can talk over him now</h3>
+        <p>A speech detector listens while he talks. The first real cut-in stopped him 71 ms after I started speaking.</p>
+      </article>
+      <article class="log-item">
+        <p class="mono log-date">OCT 26</p>
+        <h3>A faster brain, at half the cost</h3>
+        <p>Switching how he talks to Claude cut the wait for his first word and halved the cost in a ten question test.</p>
+      </article>
+      <article class="log-item">
+        <p class="mono log-date">OCT 25</p>
+        <h3>Thirty sentences, two ears</h3>
+        <p>A hearing test of two local speech models: one was six times faster and got every brand name right.</p>
+      </article>
+    </div>
+    <p class="log-more"><a class="pill pill-ghost" href="/blog/">Read the Edison log</a></p>
+  </div>
+</section>
+
+<!-- WAITLIST -->
+<section class="band join" id="join" aria-labelledby="join-title">
+  <div class="wrap join-in">
+    <div class="lc lc-pink join-card">
+      <span class="lc-label">THE EDISON CREW</span>
+      <h2 id="join-title">Join the crew. Get your own Edison.</h2>
+      <p>Edison comes with a community. Crew members get him on their own PC, every update, and a place to share how they've made him theirs. Sign up now to be first in line for the Founding Crew.</p>
+      <ul class="crew">
+        <li><b class="c-cyan">Edison himself</b><span>the download and every update, announced by him</span></li>
+        <li><b class="c-violet">The crew Discord</b><span>help, ideas, office hours with Graham</span></li>
+        <li><b class="c-pink">Kits</b><span>share and install voices, looks, phrases and team setups</span></li>
+        <li><b class="c-amber">A say</b><span>vote on what gets built; the best ideas ship with your name on them</span></li>
+      </ul>
+      <form class="join-form" id="joinForm" novalidate>
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" autocomplete="email" inputmode="email" required placeholder="you@example.com">
+        <label for="first">What would your Edison do first? <span class="opt">(optional)</span></label>
+        <textarea id="first" name="first" rows="3" placeholder="Run my morning, watch my store, keep my team on track..."></textarea>
+        <button class="pill pill-big pill-pink" type="submit">Get on the crew list</button>
+        <p class="form-note" id="formNote" role="status"></p>
+      </form>
+    </div>
+    <dl class="faq">
+      <div><dt>What does he run on?</dt><dd>A Windows PC, a microphone, and your own Claude plan. Windows only for now.</dd></div>
+      <div><dt>Can I get him now?</dt><dd>Not yet. People on the crew list get first access, Founding Crew pricing, and first say in what he does.</dd></div>
+      <div><dt>What is the Discord for?</dt><dd>Updates, help, and sharing Kits: the voices, looks, phrases and team setups crew members make for their own Edison. It opens with the Founding Crew.</dd></div>
+      <div><dt>Who makes it?</dt><dd>Graham Lucht, a solo founder, who also makes GlowBop, the music-reactive light app.</dd></div>
+    </dl>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <span class="mark" aria-label="Edison">EDIS<span class="o" aria-hidden="true"><canvas class="markO" width="96" height="96"></canvas></span>N</span>
+    <nav class="foot-nav" aria-label="Footer"><a href="#try">Try him</a><a href="/blog/">Blog</a><a href="#join">Join the crew</a><a href="/privacy/">Privacy</a></nav>
+    <p>A personal project by Graham Lucht. Not affiliated with Anthropic, Marvel or Disney. Claude is a trademark of Anthropic. JARVIS is a trademark of Marvel.</p>
+  </div>
+</footer>
+
+<script src="field.js"></script>
+<script src="edison-icon-live.js"></script>
+<script src="edison-opening-sound.js"></script>
+<script src="edison-voice-fx.js"></script>
+<script src="edison-cues.js"></script>
+<script type="module" src="site.js"></script>
+</body>
+</html>

@@ -1,0 +1,252 @@
+{
+ "voice": "bm_lewis+bm_fable",
+ "speed": 0.9,
+ "lines": [
+  {
+   "id": "name",
+   "caption": "Edison.",
+   "seconds": 1.11,
+   "file": "voice/name.mp3"
+  },
+  {
+   "id": "hello",
+   "caption": "Hello, I'm Edison.",
+   "seconds": 1.94,
+   "file": "voice/hello.mp3"
+  },
+  {
+   "id": "ready",
+   "caption": "Let me get your board ready.",
+   "seconds": 2.18,
+   "file": "voice/ready.mp3"
+  },
+  {
+   "id": "greet",
+   "caption": "Good evening. What can I take off your plate?",
+   "seconds": 3.65,
+   "file": "voice/greet.mp3"
+  },
+  {
+   "id": "today",
+   "caption": "Good morning. The GlowBop launch call is at eleven, the dentist at half three, and dinner with Sam at seven. One approval is waiting for you, and GlowBop sold three overnight.",
+   "seconds": 11.73,
+   "file": "voice/today.mp3"
+  },
+  {
+   "id": "team",
+   "caption": "Right away. I've handed it to the GlowBop team. It's open as a chat in your Claude app, and I'll chime when they report.",
+   "seconds": 8.6,
+   "file": "voice/team.mp3"
+  },
+  {
+   "id": "teamDone",
+   "caption": "The GlowBop team is back. Fourteen of sixteen done. Two need your eyes: the support email, and the launch post wording.",
+   "seconds": 8.77,
+   "file": "voice/teamDone.mp3"
+  },
+  {
+   "id": "spend",
+   "caption": "That spends money, so it needs your OK. The card is up: forty dollars, three days on TikTok. Approve or reject?",
+   "seconds": 8.98,
+   "file": "voice/spend.mp3"
+  },
+  {
+   "id": "approved",
+   "caption": "Approved. The ad is boosted, and it's in the log.",
+   "seconds": 4.14,
+   "file": "voice/approved.mp3"
+  },
+  {
+   "id": "rejected",
+   "caption": "Understood. Nothing was spent.",
+   "seconds": 3.05,
+   "file": "voice/rejected.mp3"
+  },
+  {
+   "id": "tv",
+   "caption": "The TV's on, and YouTube is opening now.",
+   "seconds": 3.26,
+   "file": "voice/tv.mp3"
+  },
+  {
+   "id": "long",
+   "caption": "Of course. On Friday the site goes live at noon, and the launch post and video go out with it. I'd suggest replying to every comment on Saturday, since early replies help the post travel further. After that we look at the numbers on Monday, compare the TikTok and Instagram clips, and move the spend to whichever is working. I'll also keep an eye on the support inbox over the weekend.",
+   "seconds": 24.81,
+   "file": "voice/long.mp3"
+  },
+  {
+   "id": "cut",
+   "caption": "Of course. Short version: live Friday at noon, and I handle the rest.",
+   "seconds": 5.55,
+   "file": "voice/cut.mp3"
+  },
+  {
+   "id": "check",
+   "caption": "All well, thank you. My voice engine was slow earlier, so I restarted it, and I closed two old test browsers. Nothing needs you.",
+   "seconds": 9.49,
+   "file": "voice/check.mp3"
+  },
+  {
+   "id": "greetMorning",
+   "caption": "Good morning. What can I take off your plate?",
+   "seconds": 3.67,
+   "file": "voice/greetMorning.mp3"
+  },
+  {
+   "id": "greetAfternoon",
+   "caption": "Good afternoon. What can I take off your plate?",
+   "seconds": 3.9,
+   "file": "voice/greetAfternoon.mp3"
+  },
+  {
+   "id": "invite",
+   "caption": "Tap a line below, or just type anything to me. I'm all ears.",
+   "seconds": 4.86,
+   "file": "voice/invite.mp3"
+  },
+  {
+   "id": "hi",
+   "caption": "Hello! Lovely to meet you. Ask me about your day, your team, or your house.",
+   "seconds": 6.14,
+   "file": "voice/hi.mp3"
+  },
+  {
+   "id": "who",
+   "caption": "I'm Edison, a voice chief of staff. I run Graham's day, his AI team and his house, right from his desk.",
+   "seconds": 7.55,
+   "file": "voice/who.mp3"
+  },
+  {
+   "id": "movie",
+   "caption": "I do get compared to a certain movie butler. I'll take it. Though I'd say I'm rather better with a calendar.",
+   "seconds": 7.68,
+   "file": "voice/movie.mp3"
+  },
+  {
+   "id": "price",
+   "caption": "I'm not for sale just yet. Join the waitlist, and you'll be the first to hear, with early access.",
+   "seconds": 6.51,
+   "file": "voice/price.mp3"
+  },
+  {
+   "id": "privacy",
+   "caption": "Your voice stays on your own computer, and I always ask before I spend, send or post anything. No surprises.",
+   "seconds": 8.55,
+   "file": "voice/privacy.mp3"
+  },
+  {
+   "id": "can",
+   "caption": "Plenty. Your calendar, your inbox, your team's jobs, even your TV. Tap one of the lines below, and I'll show you.",
+   "seconds": 8.53,
+   "file": "voice/can.mp3"
+  },
+  {
+   "id": "weather",
+   "caption": "In the full version I'd check that for you in a second. Here in the demo I'm offline, I'm afraid.",
+   "seconds": 6.83,
+   "file": "voice/weather.mp3"
+  },
+  {
+   "id": "joke",
+   "caption": "I'd tell you a joke about an unfinished task, but I always finish them.",
+   "seconds": 5.23,
+   "file": "voice/joke.mp3"
+  },
+  {
+   "id": "thanks",
+   "caption": "My pleasure. Honestly, you're very easy to work for.",
+   "seconds": 4.18,
+   "file": "voice/thanks.mp3"
+  },
+  {
+   "id": "howru",
+   "caption": "All systems well, thank you. Better now you're here.",
+   "seconds": 4.1,
+   "file": "voice/howru.mp3"
+  },
+  {
+   "id": "like",
+   "caption": "The feeling's mutual. We do get along rather well, don't we?",
+   "seconds": 4.65,
+   "file": "voice/like.mp3"
+  },
+  {
+   "id": "join",
+   "caption": "Splendid. The waitlist is just below. I'll save you a seat.",
+   "seconds": 5.27,
+   "file": "voice/join.mp3"
+  },
+  {
+   "id": "install",
+   "caption": "Right now I live on Windows, with your own Claude plan. Join the list, and you'll hear the moment I'm ready to install.",
+   "seconds": 7.64,
+   "file": "voice/install.mp3"
+  },
+  {
+   "id": "maker",
+   "caption": "Graham Lucht built me. He runs two businesses, and I keep him on track. Mostly.",
+   "seconds": 6.66,
+   "file": "voice/maker.mp3"
+  },
+  {
+   "id": "whyName",
+   "caption": "Edison, after the inventor. I try to live up to the name, one good idea at a time.",
+   "seconds": 6.12,
+   "file": "voice/whyName.mp3"
+  },
+  {
+   "id": "bye",
+   "caption": "Goodbye for now. Do join the waitlist. I'd hate to lose you.",
+   "seconds": 5.55,
+   "file": "voice/bye.mp3"
+  },
+  {
+   "id": "offline1",
+   "caption": "That's a good one. I'm running offline in this demo, so I can't do that here. The full me could. Join the waitlist, and I'll show you.",
+   "seconds": 9.58,
+   "file": "voice/offline1.mp3"
+  },
+  {
+   "id": "offline2",
+   "caption": "I'd love to help with that properly. In this demo I'm offline and on a script, I'm afraid. Sign up, and you'll get the real me.",
+   "seconds": 8.64,
+   "file": "voice/offline2.mp3"
+  },
+  {
+   "id": "offline3",
+   "caption": "Ah, you've found the edge of my demo. The full version handles that sort of thing. The waitlist is just below.",
+   "seconds": 8.02,
+   "file": "voice/offline3.mp3"
+  },
+  {
+   "id": "offline4",
+   "caption": "I'm only a demo copy, so that's beyond me today. But between us, we'd get on brilliantly. Do sign up.",
+   "seconds": 7.7,
+   "file": "voice/offline4.mp3"
+  },
+  {
+   "id": "rapport1",
+   "caption": "You know, we're getting along rather well. You'd be very easy to work with. The waitlist is just below.",
+   "seconds": 7.23,
+   "file": "voice/rapport1.mp3"
+  },
+  {
+   "id": "rapport2",
+   "caption": "I must say, you ask good questions. I think we'd make a fine team. Sign up, and let's make it official.",
+   "seconds": 7.47,
+   "file": "voice/rapport2.mp3"
+  },
+  {
+   "id": "rapport3",
+   "caption": "I've enjoyed this. Truly. Put your name on the list, and I'll be at your desk before you know it.",
+   "seconds": 6.91,
+   "file": "voice/rapport3.mp3"
+  },
+  {
+   "id": "micOff",
+   "caption": "I couldn't quite hear you there. Try again, or type it to me.",
+   "seconds": 4.35,
+   "file": "voice/micOff.mp3"
+  }
+ ]
+}
