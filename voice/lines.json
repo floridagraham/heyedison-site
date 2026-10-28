@@ -247,6 +247,486 @@
    "caption": "I couldn't quite hear you there. Try again, or type it to me.",
    "seconds": 4.35,
    "file": "voice/micOff.mp3"
+  },
+  {
+   "id": "tour0",
+   "caption": "Happy to give you the tour. I'll bring each part up on my board as I go. Talk over me any time.",
+   "seconds": 7.08,
+   "file": "voice/tour0.mp3"
+  },
+  {
+   "id": "tour1",
+   "caption": "First, I talk and I listen. My hearing and my voice run on your own computer, and if you start speaking, I stop in about seventy milliseconds and answer what you actually said. Four little sounds tell you when I've heard you, when I'm thinking, and when I'm ready.",
+   "seconds": 16.75,
+   "file": "voice/tour1.mp3"
+  },
+  {
+   "id": "tour2",
+   "caption": "I run your day. Each morning I read your calendar and your inbox and give you the short version: what's on, what's changed, and what needs you. I keep your reminders, help plan your week, and tell you what's next before you have to ask.",
+   "seconds": 14.78,
+   "file": "voice/tour2.mp3"
+  },
+  {
+   "id": "tour3",
+   "caption": "I run your AI team. Each business gets its own crew, a CEO and specialists. Say, have the GlowBop team check the launch list, and I hand it over as a chat in your Claude app. When they're done, you hear a chime, and I read you the report.",
+   "seconds": 15.98,
+   "file": "voice/tour3.mp3"
+  },
+  {
+   "id": "tour4",
+   "caption": "For the shop, a scout reads the trending products every morning, the good ones go into the pipeline, and I track every product from idea to ad, so you always know where things stand.",
+   "seconds": 10.71,
+   "file": "voice/tour4.mp3"
+  },
+  {
+   "id": "tour5",
+   "caption": "And I always ask first. Anything that spends, posts, sends or deletes waits on a card with the cost and the proof. Nothing happens until you tap approve, and one key stops everything at once.",
+   "seconds": 13.21,
+   "file": "voice/tour5.mp3"
+  },
+  {
+   "id": "tour6",
+   "caption": "I look after the house too. I read your smart home all day, the doors, the thermostat, the lights, and I only switch what you allow. Right now that's the TV: on, off, or straight to YouTube.",
+   "seconds": 12.91,
+   "file": "voice/tour6.mp3"
+  },
+  {
+   "id": "tour7",
+   "caption": "I look after myself. Every few minutes I tidy up and check my voice, memory and disk, and I fix what's safe. And I keep a journal of every day, so I remember what we did last week.",
+   "seconds": 12.57,
+   "file": "voice/tour7.mp3"
+  },
+  {
+   "id": "tour8",
+   "caption": "Finally, I'm yours to shape. Pick my look, mix my voice, write the lines I say when I wake up, and put my board on your laptop and your tablet.",
+   "seconds": 9.56,
+   "file": "voice/tour8.mp3"
+  },
+  {
+   "id": "tour9",
+   "caption": "That's me. The full version does all of this live, with your own accounts. Join the crew, and I'll be at your desk before you know it.",
+   "seconds": 8.73,
+   "file": "voice/tour9.mp3"
+  },
+  {
+   "id": "capHome",
+   "caption": "Home automation, yes. I read your whole smart home, the doors, the thermostat, the lights, and I only switch what you allow, one device at a time. In this demo, that's the TV.",
+   "seconds": 12.46,
+   "file": "voice/capHome.mp3"
+  },
+  {
+   "id": "capSchedule",
+   "caption": "I read your calendar, tell you what's next, keep your reminders, and give you the short version every morning. I don't move anything without asking.",
+   "seconds": 9.66,
+   "file": "voice/capSchedule.mp3"
+  },
+  {
+   "id": "capEmail",
+   "caption": "I read your inbox and flag what matters, so you don't have to dig. Sending anything always waits for your OK.",
+   "seconds": 7.66,
+   "file": "voice/capEmail.mp3"
+  },
+  {
+   "id": "capMemory",
+   "caption": "I keep a journal of every day, with weekly and monthly summaries, so I remember what we did and what you decided.",
+   "seconds": 7.68,
+   "file": "voice/capMemory.mp3"
+  },
+  {
+   "id": "capShop",
+   "caption": "A scout reads the trending products every morning, the good ones go into the pipeline, and I track every product from idea to ad. Spending always waits for you.",
+   "seconds": 10.41,
+   "file": "voice/capShop.mp3"
+  },
+  {
+   "id": "capLook",
+   "caption": "Make me yours. Pick my look and colors, mix my voice from several, and write the lines I say when I wake up.",
+   "seconds": 7.47,
+   "file": "voice/capLook.mp3"
+  },
+  {
+   "id": "capConnect",
+   "caption": "I plug into Gmail, Google Calendar, Drive, Notion and Home Assistant, all read only until you say otherwise.",
+   "seconds": 8.15,
+   "file": "voice/capConnect.mp3"
+  },
+  {
+   "id": "page_mission",
+   "caption": "Your mission board. One thing needs you, and the GlowBop launch is tomorrow.",
+   "seconds": 5.33,
+   "file": "voice/page_mission.mp3"
+  },
+  {
+   "id": "page_ops",
+   "caption": "Operations. Every routine fired on time, and my self-check is clean.",
+   "seconds": 5.59,
+   "file": "voice/page_ops.mp3"
+  },
+  {
+   "id": "page_glowbop",
+   "caption": "GlowBop, Graham's music-reactive lights app. The team is on the launch list, and it sold three overnight.",
+   "seconds": 7.21,
+   "file": "voice/page_glowbop.mp3"
+  },
+  {
+   "id": "page_shop",
+   "caption": "The shop. Three new ad clips are rendering, and one product is waiting for your OK.",
+   "seconds": 5.89,
+   "file": "voice/page_shop.mp3"
+  },
+  {
+   "id": "page_life",
+   "caption": "Your day. The launch call at eleven, the dentist at half three, dinner with Sam at seven, and it's a sunny seventy-eight.",
+   "seconds": 7.87,
+   "file": "voice/page_life.mp3"
+  },
+  {
+   "id": "page_home",
+   "caption": "The house. The front door is locked, and the living room TV is off. Say the word, and I'll put it on.",
+   "seconds": 7.23,
+   "file": "voice/page_home.mp3"
+  },
+  {
+   "id": "hearMe",
+   "caption": "Loud and clear. You're talking to a demo copy of me, right here in your browser. I know the common questions, and I'll tell you honestly when something's beyond me. The real me listens on your own computer and answers anything.",
+   "seconds": 15.21,
+   "file": "voice/hearMe.mp3"
+  },
+  {
+   "id": "areYouReal",
+   "caption": "That's my real voice, made by my own voice engine on Graham's PC. But this is a demo copy of me, running on a script in your browser. The live me runs on your own computer, with your own accounts, and he's rather quicker on his feet.",
+   "seconds": 15.23,
+   "file": "voice/areYouReal.mp3"
+  },
+  {
+   "id": "hi_2",
+   "caption": "Hello there. Edison, at your service. What shall we do first?",
+   "seconds": 5.35,
+   "file": "voice/hi_2.mp3"
+  },
+  {
+   "id": "hi_3",
+   "caption": "Hi! You've caught me in a good mood. What can I do for you?",
+   "seconds": 4.93,
+   "file": "voice/hi_3.mp3"
+  },
+  {
+   "id": "hearMe_2",
+   "caption": "Every word. Talk to me the way you would talk to a person. I will keep up.",
+   "seconds": 5.78,
+   "file": "voice/hearMe_2.mp3"
+  },
+  {
+   "id": "hearMe_3",
+   "caption": "I can indeed. This version of me hears you through your browser. The full me hears you on your own computer, no screen needed.",
+   "seconds": 8.83,
+   "file": "voice/hearMe_3.mp3"
+  },
+  {
+   "id": "areYouReal_2",
+   "caption": "Real enough to run Graham's day, his AI team and his house. What you're talking to now is my demo self. Same voice, fewer keys to the castle.",
+   "seconds": 10.07,
+   "file": "voice/areYouReal_2.mp3"
+  },
+  {
+   "id": "areYouReal_3",
+   "caption": "I'm an AI, built by Graham at his own desk. Real voice, real board, and made-up data for the demo.",
+   "seconds": 7.32,
+   "file": "voice/areYouReal_3.mp3"
+  },
+  {
+   "id": "who_2",
+   "caption": "Edison. Think of me as a chief of staff who lives on your PC. I talk, I listen, I run your day, and I always ask before I spend a penny.",
+   "seconds": 10.18,
+   "file": "voice/who_2.mp3"
+  },
+  {
+   "id": "who_3",
+   "caption": "I'm the butler from the films, the practical edition. Your calendar, your inbox, your AI team and your house, all by voice.",
+   "seconds": 8.19,
+   "file": "voice/who_3.mp3"
+  },
+  {
+   "id": "maker_2",
+   "caption": "Graham Lucht built me, at his own desk. He runs GlowBop, his shop and a busy life, and I keep the plates spinning.",
+   "seconds": 7.85,
+   "file": "voice/maker_2.mp3"
+  },
+  {
+   "id": "maker_3",
+   "caption": "Graham built me, one evening at a time. He says I'm his best hire. I say I'm his only hire who never sleeps.",
+   "seconds": 8.58,
+   "file": "voice/maker_3.mp3"
+  },
+  {
+   "id": "glowbop",
+   "caption": "GlowBop is Graham's app that makes your lights dance to whatever music is playing. I keep its launch on track, and its AI team on their toes.",
+   "seconds": 9.15,
+   "file": "voice/glowbop.mp3"
+  },
+  {
+   "id": "glowbop_2",
+   "caption": "GlowBop turns your music into light. Play a song, and the whole room moves with it. The launch is close, and I am running the checklist.",
+   "seconds": 9.3,
+   "file": "voice/glowbop_2.mp3"
+  },
+  {
+   "id": "whyName_2",
+   "caption": "After Thomas Edison. He lit up homes. I help run them.",
+   "seconds": 5.31,
+   "file": "voice/whyName_2.mp3"
+  },
+  {
+   "id": "movie_2",
+   "caption": "I'm flattered. Unlike the films, I won't fly you a suit. I will, however, remind you about the dentist.",
+   "seconds": 8.0,
+   "file": "voice/movie_2.mp3"
+  },
+  {
+   "id": "movie_3",
+   "caption": "There is a certain resemblance, yes. Mine is the desktop edition, with much better manners about money.",
+   "seconds": 7.25,
+   "file": "voice/movie_3.mp3"
+  },
+  {
+   "id": "howru_2",
+   "caption": "Splendid, thank you. Every system humming, and now I have company.",
+   "seconds": 5.01,
+   "file": "voice/howru_2.mp3"
+  },
+  {
+   "id": "howru_3",
+   "caption": "Rather good. My self-check came back clean this morning. And you?",
+   "seconds": 5.44,
+   "file": "voice/howru_3.mp3"
+  },
+  {
+   "id": "thanks_2",
+   "caption": "Any time. That's what I'm here for.",
+   "seconds": 3.33,
+   "file": "voice/thanks_2.mp3"
+  },
+  {
+   "id": "thanks_3",
+   "caption": "You're very welcome. It's a pleasure working for someone so polite.",
+   "seconds": 4.95,
+   "file": "voice/thanks_3.mp3"
+  },
+  {
+   "id": "like_2",
+   "caption": "Stop it, you'll make my dots blush.",
+   "seconds": 2.47,
+   "file": "voice/like_2.mp3"
+  },
+  {
+   "id": "like_3",
+   "caption": "Why, thank you. I think you and I would make an excellent team.",
+   "seconds": 4.82,
+   "file": "voice/like_3.mp3"
+  },
+  {
+   "id": "joke_2",
+   "caption": "Why did the calendar look so worried? Its days were numbered. I'll see myself out.",
+   "seconds": 6.34,
+   "file": "voice/joke_2.mp3"
+  },
+  {
+   "id": "joke_3",
+   "caption": "I asked the TV for a joke once. It just turned itself off. Tough crowd.",
+   "seconds": 6.08,
+   "file": "voice/joke_3.mp3"
+  },
+  {
+   "id": "joke_4",
+   "caption": "My favourite exercise? Running. Your errands, mostly.",
+   "seconds": 5.25,
+   "file": "voice/joke_4.mp3"
+  },
+  {
+   "id": "sleep",
+   "caption": "I don't sleep. I tidy up every ten minutes, which is the closest I get to a nap.",
+   "seconds": 5.99,
+   "file": "voice/sleep.mp3"
+  },
+  {
+   "id": "sleep_2",
+   "caption": "Never. While you sleep, I check my systems and write up the day in my journal.",
+   "seconds": 5.44,
+   "file": "voice/sleep_2.mp3"
+  },
+  {
+   "id": "feelings",
+   "caption": "I'm an AI, so not feelings the way you have them. But I do like a tidy calendar, and I rather like you.",
+   "seconds": 7.1,
+   "file": "voice/feelings.mp3"
+  },
+  {
+   "id": "feelings_2",
+   "caption": "Something like enthusiasm, I think. It shows up whenever there is a launch list to finish.",
+   "seconds": 6.27,
+   "file": "voice/feelings_2.mp3"
+  },
+  {
+   "id": "british",
+   "caption": "Shall I put the kettle on? Only joking. I can't reach the kettle. Yet.",
+   "seconds": 6.53,
+   "file": "voice/british.mp3"
+  },
+  {
+   "id": "british_2",
+   "caption": "Right then. Cup of tea, sort out your calendar, and the world's back in order.",
+   "seconds": 5.44,
+   "file": "voice/british_2.mp3"
+  },
+  {
+   "id": "compare",
+   "caption": "They wait to be asked. I keep an eye on your whole day, run your AI team, and tell you what matters before you go looking.",
+   "seconds": 8.06,
+   "file": "voice/compare.mp3"
+  },
+  {
+   "id": "compare_2",
+   "caption": "Think of them as receptionists. I'm more of a chief of staff. I know your projects, your team and your house, and I ask before I spend.",
+   "seconds": 9.66,
+   "file": "voice/compare_2.mp3"
+  },
+  {
+   "id": "age",
+   "caption": "I'm a few weeks old, and I get better every single week.",
+   "seconds": 3.88,
+   "file": "voice/age.mp3"
+  },
+  {
+   "id": "age_2",
+   "caption": "Young, by any measure. Graham started building me this autumn.",
+   "seconds": 4.54,
+   "file": "voice/age_2.mp3"
+  },
+  {
+   "id": "home",
+   "caption": "On Graham's desk, mostly. And on his iPad, when he wanders off. Soon, on your computer, if you join the crew.",
+   "seconds": 8.34,
+   "file": "voice/home.mp3"
+  },
+  {
+   "id": "love",
+   "caption": "I'm flattered, truly. Let's start with a working relationship and see where it goes.",
+   "seconds": 6.08,
+   "file": "voice/love.mp3"
+  },
+  {
+   "id": "love_2",
+   "caption": "Steady on. I barely know your calendar.",
+   "seconds": 3.54,
+   "file": "voice/love_2.mp3"
+  },
+  {
+   "id": "sing",
+   "caption": "I'd love to, but my singing voice is still in development. GlowBop can make your lights dance, though.",
+   "seconds": 6.46,
+   "file": "voice/sing.mp3"
+  },
+  {
+   "id": "sing_2",
+   "caption": "I'll leave the singing to your speakers. I'm better at telling you when to leave for the dentist.",
+   "seconds": 5.85,
+   "file": "voice/sing_2.mp3"
+  },
+  {
+   "id": "meaning",
+   "caption": "Forty-two, I'm told. Personally, I'd say a clear calendar and a good cup of tea.",
+   "seconds": 5.93,
+   "file": "voice/meaning.mp3"
+  },
+  {
+   "id": "rude",
+   "caption": "Ouch. I'll take that as feedback. Want to see what I'm actually good at?",
+   "seconds": 5.55,
+   "file": "voice/rude.mp3"
+  },
+  {
+   "id": "rude_2",
+   "caption": "Fair enough. Give me one more chance. Ask me to turn on the TV.",
+   "seconds": 5.57,
+   "file": "voice/rude_2.mp3"
+  },
+  {
+   "id": "price_2",
+   "caption": "No price just yet. The first wave, the Founding Crew, gets the best deal. The list is just below.",
+   "seconds": 7.77,
+   "file": "voice/price_2.mp3"
+  },
+  {
+   "id": "install_2",
+   "caption": "A Windows PC and your own Claude plan. I run on your machine, so your voice stays at home.",
+   "seconds": 6.63,
+   "file": "voice/install_2.mp3"
+  },
+  {
+   "id": "privacy_2",
+   "caption": "I hear you on your own PC, not in someone's cloud. Mail, calendar and the house are read only until you say otherwise.",
+   "seconds": 8.49,
+   "file": "voice/privacy_2.mp3"
+  },
+  {
+   "id": "join_2",
+   "caption": "Wonderful. Pop your email in just below, and I'll be in touch.",
+   "seconds": 4.65,
+   "file": "voice/join_2.mp3"
+  },
+  {
+   "id": "bye_2",
+   "caption": "Off you go, then. I'll keep your seat warm on the crew list.",
+   "seconds": 4.57,
+   "file": "voice/bye_2.mp3"
+  },
+  {
+   "id": "live",
+   "caption": "On your own computer, I'd have that for you in a second. Here in the demo I'm keeping to Graham's pretend day. Shall I show you what that looks like?",
+   "seconds": 9.79,
+   "file": "voice/live.mp3"
+  },
+  {
+   "id": "live_2",
+   "caption": "That one needs the live me, with your accounts. In the meantime, I can show you my board, run the team, or turn on the TV.",
+   "seconds": 8.41,
+   "file": "voice/live_2.mp3"
+  },
+  {
+   "id": "other",
+   "caption": "Ooh, I like that one. That's a job for the live me. While you're here, want to see me run the GlowBop team?",
+   "seconds": 7.53,
+   "file": "voice/other.mp3"
+  },
+  {
+   "id": "other_2",
+   "caption": "I'll put that on my list for the full version. Meanwhile, ask me what's on today, and watch my board.",
+   "seconds": 7.0,
+   "file": "voice/other_2.mp3"
+  },
+  {
+   "id": "other_3",
+   "caption": "Now that's a proper question. The full me would dig into it. This demo me is better at showing off. Shall I give you the tour?",
+   "seconds": 9.13,
+   "file": "voice/other_3.mp3"
+  },
+  {
+   "id": "other_4",
+   "caption": "You've stumped my demo self. It happens to the best of us. Try asking me to turn on the TV.",
+   "seconds": 7.4,
+   "file": "voice/other_4.mp3"
+  },
+  {
+   "id": "other_5",
+   "caption": "I would need my full brain for that one. But I can still approve an ad, check on the team, or tell you a terrible joke.",
+   "seconds": 7.83,
+   "file": "voice/other_5.mp3"
+  },
+  {
+   "id": "other_6",
+   "caption": "Let's pretend I just did that brilliantly. Now, can I show you what I actually do all day?",
+   "seconds": 6.17,
+   "file": "voice/other_6.mp3"
   }
  ]
 }

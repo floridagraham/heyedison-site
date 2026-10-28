@@ -387,7 +387,7 @@ async function talk(raw) {
     else if (hit === 'date') line = `It's ${now.toLocaleDateString([], { weekday: 'long', month: 'long', day: 'numeric' })}, by your clock. On my demo board, it's always launch week.`;
     else {
       const p = pickLine(hit); line = p.text; clipId = p.clip; next = TALK[hit].next;
-      if (hit === 'name' && m) { visitor = m[2].trim().split(/\s+/)[0].replace(/^./, (c) => c.toUpperCase()); line = `Lovely to meet you, ${visitor}. I'll remember that.`; }
+      if (hit === 'name' && m) { visitor = m[2].trim().split(/\s+/)[0].replace(/^./, (c) => c.toUpperCase()); line = `Lovely to meet you, ${visitor}. I'll remember that.`; clipId = null; }
     }
     if (PITCHY.has(hit)) screen.innerHTML = PITCH;
     else if (CAPS[hit]) { showPage(CAPS[hit].page); screen.innerHTML = CAPS[hit].card(); }
