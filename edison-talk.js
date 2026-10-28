@@ -108,8 +108,8 @@ export const TALK = {
     'No price just yet. Sign up below, and you get me first, at the launch price.'],
     next: ['Sign me up', 'What do I need to run you?'] },
   install: { say: [
-    "Right now I live on Windows, with your own Claude plan. Join the list, and you'll hear the moment I'm ready to install.",
-    'A Windows PC and your own Claude plan. I run on your machine, so your voice stays at home.'],
+    "Right now I live on Windows and work with Claude Code, so you'll need a Claude Pro or Max plan. Sign up below, and you'll hear the moment I'm ready to install.",
+    'A Windows PC and Claude Code, which comes with a Claude Pro or Max plan. Codex is coming soon. I run on your machine, so your voice stays at home.'],
     next: ['Sign me up', 'Is my data safe?'] },
   privacy: { say: [
     'Your voice stays on your own computer, and I always ask before I spend, send or post anything. No surprises.',
@@ -172,7 +172,7 @@ export const INTENTS = [
   [/\b(my name is|i'?m called|call me)\s+([a-z][a-z' -]{0,20})/, 'name'],
   [/\b(sign ?(me )?up|wait ?list|join|subscribe|count me in|early access)\b/, 'join'],
   [/\b(price|pricing|cost|how much|buy|purchase|pay|paid|subscription)\b/, 'price'],
-  [/\b(mac|windows|install|download|iphone|android|linux|requirements?|what do i need|run you)\b/, 'install'],
+  [/\b(mac|windows|install|download|iphone|android|linux|requirements?|what do i need|run you|claude( code)?|codex|anthropic|openai)\b/, 'install'],
   [/\b(can you hear me|do you hear me|hear me|are you listening|listening to me|am i (talking|speaking) to you|you there|anyone there|hello\?+)/, 'hearMe'],
   [/\b(are you (real|live|alive|human|a bot|a robot|an ai|ai|recorded|really edison|a person)|is (this|that) (really )?(you|real|live|recorded|ai|a recording)|real person|pre-?recorded|just a script)\b/, 'areYouReal'],
   [/\b(privacy|private|safe|safety|secure|security|my data|spy|record(ing)? me)\b/, 'privacy'],

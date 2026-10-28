@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Whisper vs Parakeet: a real hearing test on a laptop · Edison</title>
+<meta name="description" content="I recorded 30 real commands and ran them through two local speech models. One was about six times faster and got every brand name right. Here's the data.">
+<link rel="canonical" href="https://heyedison.ai/blog/whisper-vs-parakeet/">
+<meta name="theme-color" content="#060418">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Whisper vs Parakeet: a real hearing test on a laptop · Edison">
+<meta property="og:description" content="I recorded 30 real commands and ran them through two local speech models. One was about six times faster and got every brand name right. Here's the data.">
+<meta property="og:url" content="https://heyedison.ai/blog/whisper-vs-parakeet/">
+<meta property="og:site_name" content="Edison">
+<meta property="og:image" content="https://heyedison.ai/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/icon-192.png">
+<link rel="alternate" type="application/rss+xml" title="The Edison log" href="/blog/feed.xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800&family=Saira+Condensed:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/site.css">
+<link rel="stylesheet" href="/blog.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Whisper vs Parakeet: a real hearing test on a laptop","description":"I recorded 30 real commands and ran them through two local speech models. One was about six times faster and got every brand name right. Here's the data.","datePublished":"2026-10-27","dateModified":"2026-10-27","mainEntityOfPage":"https://heyedison.ai/blog/whisper-vs-parakeet/","url":"https://heyedison.ai/blog/whisper-vs-parakeet/","author":{"@type":"Person","name":"Graham Lucht"},"publisher":{"@type":"Organization","name":"Edison","logo":{"@type":"ImageObject","url":"https://heyedison.ai/icon-512.png"}},"keywords":"local voice AI, speech to text"}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<canvas id="field" aria-hidden="true"></canvas>
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="/" aria-label="Edison home">
+      <span class="brand-elbow" aria-hidden="true"></span>
+      <span class="mark" aria-hidden="true">EDIS<span class="o"><canvas class="markO" width="96" height="96"></canvas></span>N</span>
+    </a>
+    <nav class="nav" aria-label="Site">
+      <a href="/#try">Try him</a>
+      <a href="/#safe">Safety</a>
+      <a href="/blog/" aria-current="false">Blog</a>
+    </nav>
+    <a class="pill pill-pink top-cta" href="/#join">Get Edison</a>
+  </div>
+  <div class="strip" aria-hidden="true"><i style="--w:64px;background:#FF3D99"></i><i style="--w:28px;background:#FFB020"></i><i class="grow" style="background:#9C3DFF"></i><i style="--w:44px;background:#33D6FF"></i><i style="--w:18px;background:#B6FF3B"></i><i style="--w:90px;background:#7A2FB0"></i><i style="--w:30px;background:#FF3D5A"></i></div>
+</header>
+<main id="main">
+<article class="post wrap">
+  <header class="post-head">
+    <p class="crumbs mono"><a href="/blog/">THE EDISON LOG</a> · LOCAL VOICE AI · SPEECH TO TEXT</p>
+    <h1>Whisper vs Parakeet: a real hearing test on a laptop</h1>
+    <p class="dek">I recorded 30 real commands and ran them through two local speech models. One was about six times faster and got every brand name right. Here's the data.</p>
+    <p class="byline mono">BY GRAHAM LUCHT · <time datetime="2026-10-27">OCT 27, 2026</time> · 3 MIN READ</p>
+  </header>
+  <nav class="toc lc lc-violet" aria-label="In this post"><span class="lc-label">IN THIS POST</span><ol><li><a href="#the-setup">The setup</a></li><li><a href="#the-results">The results</a></li><li><a href="#where-the-difference-showed">Where the difference showed</a></li><li><a href="#a-note-on-my-word-error-numbers">A note on my &quot;word error&quot; numbers</a></li><li><a href="#why-i-haven-t-switched-yet">Why I haven't switched yet</a></li><li><a href="#what-i-d-tell-anyone-building-local-voice-ai">What I'd tell anyone building local voice AI</a></li><li><a href="#hear-the-result">Hear the result</a></li></ol></nav>
+  <div class="prose">
+<p>My voice assistant, Edison, hears me on my own laptop. No cloud, no subscription for the ears. For the first version I used OpenAI's Whisper (the <code>small.en</code> model), because it's the default everyone reaches for. But it was slow, and it kept mishearing the names I say most: my own products.</p>
+<p>So I ran a proper test: 30 real commands, recorded in my own voice, scored on two local models. Here's what happened.</p>
+<h2 id="the-setup">The setup</h2>
+<ul><li><strong>The clips:</strong> 30 short recordings of things I actually say to Edison. &quot;Hey Edison, what's on my calendar tomorrow?&quot; &quot;Tell the GlowBop team to fix the wall offset.&quot; &quot;Check Kalodata for the top selling products this week.&quot; &quot;Never mind, stop.&quot;</li><li><strong>The models:</strong> Whisper <code>small.en</code> (through faster-whisper) and NVIDIA's <strong>Parakeet v3</strong>, both running on the laptop's processor, no graphics card.</li><li><strong>The same fix-up for both:</strong> after hearing, both get the same spelling list, which corrects names a model is known to mangle.</li><li><strong>What I scored:</strong> how long each clip took, and whether 17 brand and product names came out right.</li></ul>
+<h2 id="the-results">The results</h2>
+<div class="tbl"><table><thead><tr><th></th><th>Whisper small.en</th><th>Parakeet v3</th></tr></thead><tbody><tr><td>Average time per clip</td><td>12.10 s</td><td>1.86 s</td></tr><tr><td>Slowest clip</td><td>28.80 s</td><td>3.22 s</td></tr><tr><td>Brand names right</td><td>15 of 17</td><td>17 of 17</td></tr></tbody></table></div>
+<p><strong>Parakeet was about six and a half times faster on average, and nine times faster on the slowest clip.</strong> It also got every brand name right.</p>
+<h2 id="where-the-difference-showed">Where the difference showed</h2>
+<p>Two examples tell the story.</p>
+<p><strong>&quot;No, I said GlowBop, not the shop.&quot;</strong> Ironically, the sentence where I correct the assistant. Whisper heard &quot;glowce up&quot;, &quot;global&quot; and &quot;glow Bob&quot; on different tries. Parakeet heard &quot;GlowBop&quot; every time.</p>
+<p><strong>&quot;Check Kalodata for the top selling products.&quot;</strong> Kalodata is a product research tool, and to Whisper it was &quot;callo data&quot; on every try. Parakeet got &quot;Kalodata&quot; most of the time. (This is exactly what the spelling list is for: &quot;callo data&quot; now becomes &quot;Kalodata&quot; whichever model heard it.)</p>
+<p>Parakeet wasn't perfect. It wrote &quot;nanolief&quot; for a light brand a few times, where Whisper got it right. Every model has its blind spots, which is why the spelling list exists.</p>
+<h2 id="a-note-on-my-word-error-numbers">A note on my &quot;word error&quot; numbers</h2>
+<p>If you run tests like this, learn from my mistake. Most of my clips ended up with the sentence said two to six times in a row. The scorer compared each clip to one copy of the sentence, so every repeat counted as &quot;extra words&quot; and the word error rates came out as nonsense: hundreds of percent for both models. They're useless, so I've left them out. Speed and brand names are the honest numbers here.</p>
+<p>Next time: one sentence per clip.</p>
+<h2 id="why-i-haven-t-switched-yet">Why I haven't switched yet</h2>
+<p>The obvious move is to switch Edison's ears to Parakeet. I haven't, for one reason: <strong>the TV.</strong></p>
+<p>All 30 clips were recorded with the TV off. When I tried a stand-in test clip mixing my voice with TV sound, Parakeet happily wrote down what the TV said instead of what I said. In my living room the TV is on a lot, so that matters more than speed.</p>
+<p>The next step is recording the same sentences with the TV on, and scoring again. Until then, Edison runs on a smaller Whisper model (<code>base.en</code>), which hears an across-the-room phrase in about 1.6 seconds: faster than <code>small.en</code>, a little less accurate.</p>
+<h2 id="what-i-d-tell-anyone-building-local-voice-ai">What I'd tell anyone building local voice AI</h2>
+<ol><li><strong>Test with your own voice and your own words.</strong> Benchmarks don't know your product names.</li><li><strong>Count brand names separately.</strong> They matter most and break first.</li><li><strong>Add a spelling list.</strong> It's the cheapest accuracy boost there is.</li><li><strong>Test in the real room.</strong> TV on, music on, someone talking in the kitchen.</li><li><strong>One sentence per clip,</strong> or your error rates will lie to you.</li></ol>
+<h2 id="hear-the-result">Hear the result</h2>
+<p>You can talk to Edison in the demo on the home page. If you want your own, <a href="/#join">sign up to get Edison</a>: you get him first and help decide what he learns next, including which ears he ends up with.</p>
+  </div>
+  <aside class="lc lc-pink cta" aria-label="Try Edison">
+  <span class="lc-label">TALK TO HIM</span>
+  <h2>Hear Edison for yourself</h2>
+  <p>Wake him up on the home page and say anything. Then sign up to get your own.</p>
+  <div class="cta-row"><a class="pill pill-big pill-cyan" href="/#try">Talk to Edison</a><a class="pill pill-big pill-ghost" href="/#join">Get Edison</a></div>
+</aside>
+  <section class="author" aria-label="About the author"><p class="mono">ABOUT THE AUTHOR</p><p><strong>Graham Lucht.</strong> Graham is a solo founder. He builds Edison, his voice chief of staff, and GlowBop, a music-reactive light app.</p></section>
+  <section class="more" aria-labelledby="more-title"><h2 id="more-title">More from the log</h2><div class="cards"><a class="post-card" href="/blog/meet-edison/"><p class="mono">OCT 27, 2026 · 4 MIN</p><h3>I built my own AI butler. His name is Edison.</h3><p>A solo founder's voice chief of staff that runs on his own PC. He talks back, runs an AI team, watches the house, and asks before he spends.</p></a><a class="post-card" href="/blog/ai-chief-of-staff/"><p class="mono">OCT 27, 2026 · 4 MIN</p><h3>What an AI chief of staff actually does all day</h3><p>Not a chatbot you visit. A voice that briefs you, hands out work, guards your money and remembers everything. Here's the real job list from mine.</p></a></div></section>
+</article>
+</main>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <span class="mark" aria-label="Edison">EDIS<span class="o" aria-hidden="true"><canvas class="markO" width="96" height="96"></canvas></span>N</span>
+    <nav class="foot-nav" aria-label="Footer"><a href="/#try">Try him</a><a href="/blog/">Blog</a><a href="/#join">Get Edison</a><a href="/privacy/">Privacy</a><a href="/blog/feed.xml">RSS</a></nav>
+    <p>A personal project by Graham Lucht. Not affiliated with Anthropic, Marvel or Disney. Claude is a trademark of Anthropic. JARVIS is a trademark of Marvel.</p>
+  </div>
+</footer>
+<script src="/field.js"></script>
+<script src="/edison-icon-live.js"></script>
+<script src="/blog.js"></script>
+</body>
+</html>

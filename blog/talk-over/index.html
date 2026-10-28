@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>I can interrupt my AI now. Here's how talk-over works. · Edison</title>
+<meta name="description" content="Most voice assistants make you wait until they finish. Edison stops 71 milliseconds after he's sure you're talking, and never acts on what he didn't say.">
+<link rel="canonical" href="https://heyedison.ai/blog/talk-over/">
+<meta name="theme-color" content="#060418">
+<meta property="og:type" content="article">
+<meta property="og:title" content="I can interrupt my AI now. Here's how talk-over works. · Edison">
+<meta property="og:description" content="Most voice assistants make you wait until they finish. Edison stops 71 milliseconds after he's sure you're talking, and never acts on what he didn't say.">
+<meta property="og:url" content="https://heyedison.ai/blog/talk-over/">
+<meta property="og:site_name" content="Edison">
+<meta property="og:image" content="https://heyedison.ai/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/icon-192.png">
+<link rel="alternate" type="application/rss+xml" title="The Edison log" href="/blog/feed.xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800&family=Saira+Condensed:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/site.css">
+<link rel="stylesheet" href="/blog.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"I can interrupt my AI now. Here's how talk-over works.","description":"Most voice assistants make you wait until they finish. Edison stops 71 milliseconds after he's sure you're talking, and never acts on what he didn't say.","datePublished":"2026-10-26","dateModified":"2026-10-26","mainEntityOfPage":"https://heyedison.ai/blog/talk-over/","url":"https://heyedison.ai/blog/talk-over/","author":{"@type":"Person","name":"Graham Lucht"},"publisher":{"@type":"Organization","name":"Edison","logo":{"@type":"ImageObject","url":"https://heyedison.ai/icon-512.png"}},"keywords":"local voice AI, build log"}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<canvas id="field" aria-hidden="true"></canvas>
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="/" aria-label="Edison home">
+      <span class="brand-elbow" aria-hidden="true"></span>
+      <span class="mark" aria-hidden="true">EDIS<span class="o"><canvas class="markO" width="96" height="96"></canvas></span>N</span>
+    </a>
+    <nav class="nav" aria-label="Site">
+      <a href="/#try">Try him</a>
+      <a href="/#safe">Safety</a>
+      <a href="/blog/" aria-current="false">Blog</a>
+    </nav>
+    <a class="pill pill-pink top-cta" href="/#join">Get Edison</a>
+  </div>
+  <div class="strip" aria-hidden="true"><i style="--w:64px;background:#FF3D99"></i><i style="--w:28px;background:#FFB020"></i><i class="grow" style="background:#9C3DFF"></i><i style="--w:44px;background:#33D6FF"></i><i style="--w:18px;background:#B6FF3B"></i><i style="--w:90px;background:#7A2FB0"></i><i style="--w:30px;background:#FF3D5A"></i></div>
+</header>
+<main id="main">
+<article class="post wrap">
+  <header class="post-head">
+    <p class="crumbs mono"><a href="/blog/">THE EDISON LOG</a> · LOCAL VOICE AI · BUILD LOG</p>
+    <h1>I can interrupt my AI now. Here's how talk-over works.</h1>
+    <p class="dek">Most voice assistants make you wait until they finish. Edison stops 71 milliseconds after he's sure you're talking, and never acts on what he didn't say.</p>
+    <p class="byline mono">BY GRAHAM LUCHT · <time datetime="2026-10-26">OCT 26, 2026</time> · 3 MIN READ</p>
+  </header>
+  <nav class="toc lc lc-violet" aria-label="In this post"><span class="lc-label">IN THIS POST</span><ol><li><a href="#what-talk-over-feels-like">What talk-over feels like</a></li><li><a href="#how-it-works-in-plain-words">How it works, in plain words</a></li><li><a href="#the-numbers">The numbers</a></li><li><a href="#the-tricky-parts">The tricky parts</a></li><li><a href="#why-it-matters-for-an-ai-that-can-act">Why it matters for an AI that can act</a></li><li><a href="#want-one">Want one?</a></li></ol></nav>
+  <div class="prose">
+<p>The most annoying thing about talking to a computer is waiting for it to stop talking. You ask a simple question, it starts a long answer, and you already know you only wanted the price. With a person you'd just say &quot;sorry, just the price&quot;. So I taught Edison, my voice chief of staff, to handle exactly that.</p>
+<p>On October 26 the first real cut-in worked: I started speaking, and once he was sure it was me, he stopped <strong>71 milliseconds</strong> later.</p>
+<h2 id="what-talk-over-feels-like">What talk-over feels like</h2>
+<p>Edison is answering. I start talking. He goes quiet almost at once, hears what I said, and answers that instead. No button, no wake word, no &quot;stop, stop, STOP&quot;.</p>
+<p>Try it yourself in the demo on the home page: ask him to walk you through the launch plan, then tap &quot;Talk over him&quot; partway through.</p>
+<h2 id="how-it-works-in-plain-words">How it works, in plain words</h2>
+<p>There are three parts.</p>
+<p><strong>1. Listening while he talks.</strong> A small speech detector (Silero VAD, which runs on my own computer) keeps listening to the microphone even while Edison is speaking. It doesn't turn speech into words. It only answers one question, about every 32 milliseconds: is someone talking right now?</p>
+<p><strong>2. Being sure it's really me.</strong> This is the hard part. A TV, a video or Edison's own voice coming back through the speakers can all sound like talking. So he waits for about <strong>300 milliseconds</strong> of steady speech that is loud enough to be me, not the TV across the room. Then he stops, within about 71 milliseconds.</p>
+<p><strong>3. Doing the right thing after he stops.</strong> Stopping the sound is easy. Stopping the <em>meaning</em> is what matters:</p>
+<ul><li>The rest of the answer he didn't say is <strong>dropped and never acted on</strong>. If he was halfway through &quot;I'll book that and send the email&quot;, nothing gets booked or sent.</li><li>His brain is told what I actually heard, so his next answer follows on naturally.</li><li>If he was reading an <strong>approval</strong> back to me (&quot;That spends forty dollars. Shall I approve it?&quot;) and I talk over him, the approval stays <strong>waiting</strong>. It is never approved by an interruption.</li></ul>
+<h2 id="the-numbers">The numbers</h2>
+<div class="tbl"><table><thead><tr><th>Moment</th><th>Time</th></tr></thead><tbody><tr><td>The speech detector checks the mic</td><td>every 32 ms</td></tr><tr><td>Steady speech needed before he stops</td><td>about 300 ms</td></tr><tr><td>From &quot;sure it's you&quot; to silence</td><td>71 ms (first real cut-in)</td></tr><tr><td>Quiet that ends your turn</td><td>0.8 s (longer if you trail off)</td></tr></tbody></table></div>
+<p>So from the moment you start talking to the moment he goes quiet is roughly a third of a second.</p>
+<h2 id="the-tricky-parts">The tricky parts</h2>
+<ul><li><strong>The TV.</strong> A speech detector hears a TV show as &quot;someone talking&quot;. So the speech also has to be loud enough to be a person near the microphone before he stops.</li><li><strong>Pauses.</strong> People pause mid-sentence. If he decided you were done after any short silence, he'd jump in while you were still thinking. So your turn ends after 0.8 seconds of quiet, and he waits longer when it sounds like you're trailing off rather than finished.</li><li><strong>A switch to turn it off.</strong> On a screen where talk-over gets in the way (a noisy room, a demo on a big speaker), it can be turned off for that screen alone.</li></ul>
+<h2 id="why-it-matters-for-an-ai-that-can-act">Why it matters for an AI that can act</h2>
+<p>Talk-over isn't just politeness. Edison can spend money, post and send messages, always after an approval. An assistant that keeps talking, or worse, keeps <em>doing</em>, after you've tried to stop it is not one you can trust. Being able to cut him off mid-sentence, and knowing the half-said part is thrown away, is part of what makes him safe to give real work to.</p>
+<h2 id="want-one">Want one?</h2>
+<p>You can talk to Edison in the demo on the home page, with his real voice and sounds. If you'd like your own, <a href="/#join">sign up to get Edison</a>: you get him first and help decide what he learns next.</p>
+  </div>
+  <aside class="lc lc-pink cta" aria-label="Try Edison">
+  <span class="lc-label">TALK TO HIM</span>
+  <h2>Hear Edison for yourself</h2>
+  <p>Wake him up on the home page and say anything. Then sign up to get your own.</p>
+  <div class="cta-row"><a class="pill pill-big pill-cyan" href="/#try">Talk to Edison</a><a class="pill pill-big pill-ghost" href="/#join">Get Edison</a></div>
+</aside>
+  <section class="author" aria-label="About the author"><p class="mono">ABOUT THE AUTHOR</p><p><strong>Graham Lucht.</strong> Graham is a solo founder. He builds Edison, his voice chief of staff, and GlowBop, a music-reactive light app.</p></section>
+  <section class="more" aria-labelledby="more-title"><h2 id="more-title">More from the log</h2><div class="cards"><a class="post-card" href="/blog/whisper-vs-parakeet/"><p class="mono">OCT 27, 2026 · 3 MIN</p><h3>Whisper vs Parakeet: a real hearing test on a laptop</h3><p>I recorded 30 real commands and ran them through two local speech models. One was about six times faster and got every brand name right. Here's the data.</p></a><a class="post-card" href="/blog/meet-edison/"><p class="mono">OCT 27, 2026 · 4 MIN</p><h3>I built my own AI butler. His name is Edison.</h3><p>A solo founder's voice chief of staff that runs on his own PC. He talks back, runs an AI team, watches the house, and asks before he spends.</p></a></div></section>
+</article>
+</main>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <span class="mark" aria-label="Edison">EDIS<span class="o" aria-hidden="true"><canvas class="markO" width="96" height="96"></canvas></span>N</span>
+    <nav class="foot-nav" aria-label="Footer"><a href="/#try">Try him</a><a href="/blog/">Blog</a><a href="/#join">Get Edison</a><a href="/privacy/">Privacy</a><a href="/blog/feed.xml">RSS</a></nav>
+    <p>A personal project by Graham Lucht. Not affiliated with Anthropic, Marvel or Disney. Claude is a trademark of Anthropic. JARVIS is a trademark of Marvel.</p>
+  </div>
+</footer>
+<script src="/field.js"></script>
+<script src="/edison-icon-live.js"></script>
+<script src="/blog.js"></script>
+</body>
+</html>

@@ -178,8 +178,8 @@
   },
   {
    "id": "install",
-   "caption": "Right now I live on Windows, with your own Claude plan. Join the list, and you'll hear the moment I'm ready to install.",
-   "seconds": 7.64,
+   "caption": "Right now I live on Windows and work with Claude Code, so you'll need a Claude Pro or Max plan. Sign up below, and you'll hear the moment I'm ready to install.",
+   "seconds": 10.54,
    "file": "voice/install.mp3"
   },
   {
@@ -658,8 +658,8 @@
   },
   {
    "id": "install_2",
-   "caption": "A Windows PC and your own Claude plan. I run on your machine, so your voice stays at home.",
-   "seconds": 6.63,
+   "caption": "A Windows PC and Claude Code, which comes with a Claude Pro or Max plan. Codex is coming soon. I run on your machine, so your voice stays at home.",
+   "seconds": 11.48,
    "file": "voice/install_2.mp3"
   },
   {
