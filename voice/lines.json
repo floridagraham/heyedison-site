@@ -268,7 +268,7 @@
   },
   {
    "id": "tour3",
-   "caption": "I run your AI team. Each business gets its own crew, a CEO and specialists. Say, have the GlowBop team check the launch list, and I hand it over as a chat in your Claude app. When they're done, you hear a chime, and I read you the report.",
+   "caption": "I run your AI team. Each business gets its own team, a CEO and specialists. Say, have the GlowBop team check the launch list, and I hand it over as a chat in your Claude app. When they're done, you hear a chime, and I read you the report.",
    "seconds": 15.98,
    "file": "voice/tour3.mp3"
   },
@@ -304,8 +304,8 @@
   },
   {
    "id": "tour9",
-   "caption": "That's me. The full version does all of this live, with your own accounts. Join the crew, and I'll be at your desk before you know it.",
-   "seconds": 8.73,
+   "caption": "That's me. The full version does all of this live, with your own accounts. Sign up below, and I'll be at your desk before you know it.",
+   "seconds": 8.83,
    "file": "voice/tour9.mp3"
   },
   {
@@ -604,8 +604,8 @@
   },
   {
    "id": "home",
-   "caption": "On Graham's desk, mostly. And on his iPad, when he wanders off. Soon, on your computer, if you join the crew.",
-   "seconds": 8.34,
+   "caption": "On Graham's desk, mostly. And on his iPad, when he wanders off. Soon, on your computer, if you sign up below.",
+   "seconds": 8.32,
    "file": "voice/home.mp3"
   },
   {
@@ -652,8 +652,8 @@
   },
   {
    "id": "price_2",
-   "caption": "No price just yet. The first wave, the Founding Crew, gets the best deal. The list is just below.",
-   "seconds": 7.77,
+   "caption": "No price just yet. Sign up below, and you get me first, at the launch price.",
+   "seconds": 5.93,
    "file": "voice/price_2.mp3"
   },
   {
@@ -676,8 +676,8 @@
   },
   {
    "id": "bye_2",
-   "caption": "Off you go, then. I'll keep your seat warm on the crew list.",
-   "seconds": 4.57,
+   "caption": "Off you go, then. Sign up below before you do, and I'm yours first.",
+   "seconds": 5.18,
    "file": "voice/bye_2.mp3"
   },
   {

@@ -1,7 +1,7 @@
 // Edison website: two globes (hero and demo), the scripted "Try him" demo with made-up data and his board, sound cue
-// buttons, the first-touch hello, and the crew list form (sent to Kit).
+// buttons, the first-touch hello, and the sign-up form (sent to Kit).
 import { mountGlobe } from './edison-globe.js';
-import { TALK, SCENE_NEXT, INTENTS } from './edison-talk.js?v=8';
+import { TALK, SCENE_NEXT, INTENTS } from './edison-talk.js?v=9';
 
 const $ = (s) => document.querySelector(s);
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -146,7 +146,7 @@ function say(text, id, done, clipId) {
 }
 
 function play(key, btn, heard) {
-  clearAll(); chips([]); const id = ++run, s = SCENES[key];
+  clearAll(); chips([]); const id = ++run, s = SCENES[key]; scene = key;
   asks.forEach((b) => b.setAttribute('aria-pressed', b === btn)); busy(true);
   youLine.hidden = false; youLine.textContent = heard || s.ask; himLine.textContent = ''; srLine.textContent = '';
   mood('listening'); state('LISTENING', 'on');
@@ -167,20 +167,38 @@ function play(key, btn, heard) {
 }
 asks.forEach((b) => (b.onclick = () => (b.dataset.say ? talk(b.dataset.say) : b.dataset.scene === 'tour' ? tour() : play(b.dataset.scene, b))));
 
-// Talk over him: he stops, drops the rest, listens, then answers what you actually said
+// Talk over him: he stops mid-word, drops the rest, and listens. During the launch plan the button stands in for
+// "sorry, just the short version"; anywhere else it opens the mic (or the typing box) and he answers what you actually say.
+let scene = null;
 cutIn.onclick = () => {
   if (!speaking || opening) return;
   const said = speaking.words.slice(0, speaking.at()).join(' ');
+  const wasLong = scene === 'long';
   clearAll(); const id = ++run;
-  cutIn.disabled = true;
+  cutIn.disabled = true; chips([]);
   himLine.innerHTML = '';
   himLine.append(said + ' ');
   const tag = document.createElement('span'); tag.className = 'cut'; tag.textContent = '[stopped in 70 ms]'; himLine.append(tag);
-  youLine.hidden = false; youLine.textContent = 'Sorry, just the short version.';
-  mood('listening'); state('LISTENING', 'on');
-  later(() => { cue('heard'); state('THINKING', 'think'); mood('idle'); }, 900);
-  later(() => { cue('ready'); say('Of course. Short version: live Friday at noon, and I handle the rest.', id, () => busy(false), 'cut'); }, 1700);
+  if (wasLong) {
+    scene = null;
+    youLine.hidden = false; youLine.textContent = 'Sorry, just the short version.';
+    mood('listening'); state('LISTENING', 'on');
+    later(() => { cue('heard'); state('THINKING', 'think'); mood('idle'); }, 900);
+    later(() => { cue('ready'); say('Of course. Short version: live Friday at noon, and I handle the rest.', id, () => afterTurn(id, SCENE_NEXT.long), 'cut'); }, 1700);
+    return;
+  }
+  scene = null; busy(false);
+  const mic = $('#micKey');
+  if (mic && !mic.hidden) return later(() => mic.click(), 250); // straight into listening, like the real Edison
+  typeIt();
 };
+// No mic (or the visitor said no to it): he waits for them to type instead
+function typeIt() {
+  mood('listening'); state('LISTENING', 'on'); cue('heard');
+  youLine.hidden = false; youLine.textContent = 'Go ahead, type it below.';
+  $('#talkIn').focus({ preventScroll: true });
+  chips(['What can you do?', 'Tell me a joke', 'Can you hear me?']);
+}
 
 // The Approve buttons, on the spend card and on the board's Needs You panel: both decide the same $40 boost
 let decided = false;
@@ -259,7 +277,7 @@ const TOUR = [
   { page: 'mission', card: tc('var(--cyan)', 'The tour', ['Talks and listens', 'Runs your day', 'Runs your AI team', 'Watches the shop', 'Asks first', 'Runs the house', 'Looks after himself', 'Yours to shape']) },
   { page: 'mission', card: tc('var(--pink)', 'Talks and listens', ['Hearing and voice on your own PC', 'Stops in about 70 ms when you cut in', 'Four sound cues: heard, thinking, ready, team back']) },
   { page: 'life', card: tc('var(--cyan)', 'Runs your day', ['A short morning brief', 'Calendar and inbox, read only', "Reminders, and what's next"]) },
-  { page: 'glowbop', card: tc('#FFE03B', 'Runs your AI team', ['A crew per business: a CEO and specialists', 'Jobs open as chats in your Claude app', 'A chime, then a spoken report']) },
+  { page: 'glowbop', card: tc('#FFE03B', 'Runs your AI team', ['A team per business: a CEO and specialists', 'Jobs open as chats in your Claude app', 'A chime, then a spoken report']) },
   { page: 'shop', card: tc('var(--lime)', 'Watches the shop', ['Trending products scouted every morning', 'A pipeline from idea to ad', 'Every stage on his board']) },
   { page: 'mission', card: tc('var(--amber)', 'Asks first', ['Spend, post, send, delete: all wait on a card', 'The cost and the proof, every time', 'Stop all halts everything at once']) },
   { page: 'home', card: tc('var(--violet)', 'Runs the house', ['Reads your whole smart home', 'Switches only what you allow', 'Today: the TV, on, off or YouTube']) },
@@ -268,7 +286,7 @@ const TOUR = [
   { page: 'mission', card: null }
 ];
 async function tour(heard) {
-  clearAll(); chips([]); const id = ++run; busy(true);
+  clearAll(); chips([]); const id = ++run; busy(true); scene = null;
   asks.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.scene === 'tour')));
   youLine.hidden = false; youLine.textContent = heard || 'What can you do?'; himLine.textContent = ''; srLine.textContent = '';
   mood('listening'); state('LISTENING', 'on');
@@ -287,13 +305,13 @@ const VOICE_TEXT = {
   tour0: "Happy to give you the tour. I'll bring each part up on my board as I go. Talk over me any time.",
   tour1: "First, I talk and I listen. My hearing and my voice run on your own computer, and if you start speaking, I stop in about seventy milliseconds and answer what you actually said. Four little sounds tell you when I've heard you, when I'm thinking, and when I'm ready.",
   tour2: "I run your day. Each morning I read your calendar and your inbox and give you the short version: what's on, what's changed, and what needs you. I keep your reminders, help plan your week, and tell you what's next before you have to ask.",
-  tour3: "I run your AI team. Each business gets its own crew, a CEO and specialists. Say, have the GlowBop team check the launch list, and I hand it over as a chat in your Claude app. When they're done, you hear a chime, and I read you the report.",
+  tour3: "I run your AI team. Each business gets its own team, a CEO and specialists. Say, have the GlowBop team check the launch list, and I hand it over as a chat in your Claude app. When they're done, you hear a chime, and I read you the report.",
   tour4: 'For the shop, a scout reads the trending products every morning, the good ones go into the pipeline, and I track every product from idea to ad, so you always know where things stand.',
   tour5: 'And I always ask first. Anything that spends, posts, sends or deletes waits on a card with the cost and the proof. Nothing happens until you tap approve, and one key stops everything at once.',
   tour6: "I look after the house too. I read your smart home all day, the doors, the thermostat, the lights, and I only switch what you allow. Right now that's the TV: on, off, or straight to YouTube.",
   tour7: "I look after myself. Every few minutes I tidy up and check my voice, memory and disk, and I fix what's safe. And I keep a journal of every day, so I remember what we did last week.",
   tour8: "Finally, I'm yours to shape. Pick my look, mix my voice, write the lines I say when I wake up, and put my board on your laptop and your tablet.",
-  tour9: "That's me. The full version does all of this live, with your own accounts. Join the crew, and I'll be at your desk before you know it."
+  tour9: "That's me. The full version does all of this live, with your own accounts. Sign up below, and I'll be at your desk before you know it."
 };
 // Short answers about one part: which board page and card go with each
 const DEMO_CARD = () => tc('var(--cyan)', 'Demo mode', ['His real voice, made by his own voice engine', 'A demo copy, on a script, in your browser', 'The live Edison runs on your own PC']);
@@ -337,8 +355,8 @@ const LINES = {
   rapport3: "I've enjoyed this. Truly. Put your name on the list, and I'll be at your desk before you know it.",
   micOff: "I couldn't quite hear you there. Try again, or type it to me."
 };
-const PITCH = `<div class="card lime"><h4>Waitlist</h4><p>Early access, the build log, and first word when Edison is ready to install.</p>
-  <div class="row"><a class="pill pill-pink pill-sm" href="#join">Join the crew</a></div></div>`;
+const PITCH = `<div class="card lime"><h4>Get Edison</h4><p>Sign up and you get him first, the moment he is ready to install.</p>
+  <div class="row"><a class="pill pill-pink pill-sm" href="#join">Sign up</a></div></div>`;
 const PITCHY = new Set(['join', 'price', 'install', 'bye']);
 // Pick one version of an answer, never the same one twice running. Version 1 uses the plain id (its clip), others id_2, id_3...
 const lastPick = {};
@@ -370,7 +388,7 @@ async function talk(raw) {
   const text = String(raw || '').trim().slice(0, 160); if (!text) return;
   if (!awake) { if (!opening) await wake(); if (!awake) return; }
   const t = text.toLowerCase().replace(/^(hey|hi|ok|okay|yo)?[\s,]*edison\b[\s,.!?]*/, '').trim() || 'hello';
-  const { id: hit, m } = intent(t);
+  const { id: hit, m } = intent(t); scene = null;
   if (hit === '@tour') return tour(text);
   if (hit[0] === '@') return play(hit.slice(1), null, text);
   clearAll(); const id = ++run; busy(true); chips([]);
@@ -410,11 +428,13 @@ if (SR) {
     let heard = '';
     mic.classList.add('on'); mood('listening'); state('LISTENING', 'on'); cue('heard');
     rec.onresult = (e) => { heard = [...e.results].map((r) => r[0].transcript).join(' '); $('#talkIn').value = heard; };
-    rec.onerror = () => {};
+    let denied = false;
+    rec.onerror = (e) => { if (/not-allowed|service-not-allowed|audio-capture/.test(e.error)) denied = true; };
     rec.onend = () => {
       rec = null; mic.classList.remove('on'); $('#talkIn').value = '';
       if (heard.trim()) talk(heard);
-      else { const id = ++run; mood('idle'); say(LINES.micOff, id, () => busy(false), 'micOff'); }
+      else if (denied) { mic.hidden = true; typeIt(); } // mic blocked: hide it and use the typing box from now on
+      else { const id = ++run; mood('idle'); say(LINES.micOff, id, () => afterTurn(id, ['What can you do?', 'Tell me a joke', 'Can you hear me?']), 'micOff'); }
     };
     try { rec.start(); } catch (e) { rec = null; mic.classList.remove('on'); }
   };
@@ -510,7 +530,7 @@ async function firstTouch(e) {
 }
 TOUCH.forEach((t) => document.addEventListener(t, firstTouch, true));
 
-// ------------------------------------------------------------ the crew list form
+// ------------------------------------------------------------ the sign-up form
 // Connected to Kit's "Edison crew" form (double opt-in; after confirming, Kit sends people to /crew/).
 // Set WAITLIST_ENDPOINT to '' to go back to preview mode, where nothing is sent.
 // It sends email_address and fields[first] (the "what would yours do first" answer).
@@ -521,13 +541,13 @@ $('#joinForm').addEventListener('submit', async (e) => {
   if (!email.value || !email.checkValidity()) { note.className = 'form-note err'; note.textContent = 'Please check your email address.'; email.focus(); return; }
   note.className = 'form-note';
   if (!WAITLIST_ENDPOINT) {
-    note.textContent = 'Preview only: the crew list is not open yet, so nothing was sent.';
+    note.textContent = 'Preview only: sign-ups are not open yet, so nothing was sent.';
   } else {
     const body = new FormData(); body.append('email_address', email.value.trim()); body.append('fields[first]', $('#first').value.trim().slice(0, 500));
     btn.disabled = true; note.textContent = 'Adding you...';
     try {
       await fetch(WAITLIST_ENDPOINT, { method: 'POST', body, mode: 'no-cors' });
-      note.textContent = "You're on the crew list. Check your inbox to confirm."; $('#joinForm').reset();
+      note.textContent = "You're signed up. Check your inbox to confirm."; $('#joinForm').reset();
     } catch (err) {
       note.className = 'form-note err'; note.textContent = 'That did not go through. Please try again in a moment.';
     } finally { btn.disabled = false; }

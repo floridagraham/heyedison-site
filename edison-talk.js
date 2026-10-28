@@ -85,7 +85,7 @@ export const TALK = {
     'Young, by any measure. Graham started building me this autumn.'],
     next: ['Who made you?', 'What can you do?'] },
   home: { say: [
-    'On Graham\'s desk, mostly. And on his iPad, when he wanders off. Soon, on your computer, if you join the crew.'],
+    'On Graham\'s desk, mostly. And on his iPad, when he wanders off. Soon, on your computer, if you sign up below.'],
     next: ['Sign me up', 'Can you run my house?'] },
   love: { say: [
     "I'm flattered, truly. Let's start with a working relationship and see where it goes.",
@@ -105,7 +105,7 @@ export const TALK = {
   name: { say: ["Lovely to meet you. I'll remember that."], next: ['What can you do?', 'Can you hear me?'] },
   price: { say: [
     "I'm not for sale just yet. Join the waitlist, and you'll be the first to hear, with early access.",
-    'No price just yet. The first wave, the Founding Crew, gets the best deal. The list is just below.'],
+    'No price just yet. Sign up below, and you get me first, at the launch price.'],
     next: ['Sign me up', 'What do I need to run you?'] },
   install: { say: [
     "Right now I live on Windows, with your own Claude plan. Join the list, and you'll hear the moment I'm ready to install.",
@@ -121,7 +121,7 @@ export const TALK = {
     next: [] },
   bye: { say: [
     "Goodbye for now. Do join the waitlist. I'd hate to lose you.",
-    "Off you go, then. I'll keep your seat warm on the crew list."],
+    "Off you go, then. Sign up below before you do, and I'm yours first."],
     next: ['Sign me up'] },
   // short answers about one part of what he does (what-edison-does-script.md)
   capHome: { page: 'home', say: ["Home automation, yes. I read your whole smart home, the doors, the thermostat, the lights, and I only switch what you allow, one device at a time. In this demo, that's the TV."],
