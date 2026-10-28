@@ -1,6 +1,6 @@
 // Edison website: two globes (hero and demo), the scripted "Try him" demo with made-up data and his board, sound cue
 // buttons, the first-touch hello, and the sign-up form (sent to Kit).
-import { mountGlobe } from './edison-globe.js?v=3';
+import { mountGlobe } from './edison-globe.js?v=4';
 import { TALK, SCENE_NEXT, INTENTS } from './edison-talk.js?v=10';
 
 const $ = (s) => document.querySelector(s);
