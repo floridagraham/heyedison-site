@@ -1,13 +1,13 @@
-// Edison website: two globes (hero and demo), the scripted "Try him" demo with made-up data, sound cue buttons,
-// and the waitlist form (not wired to any service yet; nothing leaves the page).
+// Edison website: two globes (hero and demo), the scripted "Try him" demo with made-up data and his board, sound cue
+// buttons, the first-touch hello, and the crew list form (sent to Kit).
 import { mountGlobe } from './edison-globe.js';
 
 const $ = (s) => document.querySelector(s);
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-let hero = null, ed = null;
-try { hero = mountGlobe($('#heroGlobe')); ed = mountGlobe($('#demoGlobe')); } catch (e) { /* no WebGL: the page still works */ }
-const mood = (m) => { try { ed && ed.setMood(m); } catch (e) {} };
+let hero = null, ed = null, mini = null;
+try { hero = mountGlobe($('#heroGlobe')); ed = mountGlobe($('#demoGlobe')); mini = mountGlobe($('#bEd')); } catch (e) { /* no WebGL: the page still works */ }
+const mood = (m) => { try { ed && ed.setMood(m); mini && mini.setMood(m); } catch (e) {} };
 
 // ------------------------------------------------------------ sound
 let soundOn = true, voiceOn = true;
@@ -99,6 +99,8 @@ const SCENES = {
   check: { ask: 'Are you OK?', say: "All well, thank you. My voice engine was slow earlier, so I restarted it, and I closed two old test browsers. Nothing needs you.", card: 'check' }
 };
 
+// which page of his board each scene brings up
+const SCENE_PAGE = { today: 'life', team: 'glowbop', spend: 'mission', tv: 'home', long: 'glowbop', check: 'ops' };
 const himLine = $('#himLine'), youLine = $('#youLine'), srLine = $('#srLine'), stateLine = $('#stateLine'), screen = $('#screen'), cutIn = $('#cutIn');
 const asks = [...document.querySelectorAll('.ask')];
 let run = 0, timers = [], speaking = null;
@@ -150,7 +152,8 @@ function play(key, btn, heard) {
   later(() => { cue('heard'); mood('idle'); state('THINKING', 'think'); himLine.innerHTML = '<span class="cut">thinking...</span>'; }, 900);
   later(() => cue('thinking'), 1900);
   later(() => {
-    cue('ready'); show(s.card);
+    cue('ready'); if (key === 'tv') tvOn = true;
+    showPage(SCENE_PAGE[key] || page); show(s.card);
     if (s.hint) himLine.dataset.hint = '1';
     later(() => say(s.say, id, () => {
       if (!s.after) return afterTurn(id);
@@ -178,19 +181,94 @@ cutIn.onclick = () => {
   later(() => { cue('ready'); say('Of course. Short version: live Friday at noon, and I handle the rest.', id, () => busy(false), 'cut'); }, 1700);
 };
 
-// The Approve card's buttons
-function wireCard() {
-  screen.querySelectorAll('[data-decide]').forEach((b) => {
-    b.onclick = () => {
-      const yes = b.dataset.decide === 'yes', card = $('#approveCard');
-      card.querySelectorAll('button').forEach((x) => (x.disabled = true));
-      card.querySelector('h4').textContent = yes ? 'Approved by you' : 'Rejected by you';
-      clearAll(); const id = ++run; busy(true);
-      cue(yes ? 'done' : 'ready');
-      say(yes ? "Approved. The ad is boosted, and it's in the log." : "Understood. Nothing was spent.", id, () => busy(false), yes ? 'approved' : 'rejected');
-    };
-  });
+// The Approve buttons, on the spend card and on the board's Needs You panel: both decide the same $40 boost
+let decided = false;
+function decide(yes) {
+  if (decided) return; decided = true;
+  document.querySelectorAll('[data-decide]').forEach((x) => (x.disabled = true));
+  const card = $('#approveCard'); if (card) card.querySelector('h4').textContent = yes ? 'Approved by you' : 'Rejected by you';
+  const needs = $('#bNeedsPn'); if (needs) needs.innerHTML = `<h4>NEEDS YOU <em>0</em></h4><p>${yes ? 'Ad boost approved by you. It is in the log.' : 'Ad boost rejected. Nothing was spent.'}</p>`;
+  $('#bNeeds').textContent = 'NEEDS YOU 0';
+  clearAll(); const id = ++run; busy(true);
+  cue(yes ? 'done' : 'ready');
+  say(yes ? "Approved. The ad is boosted, and it's in the log." : "Understood. Nothing was spent.", id, () => busy(false), yes ? 'approved' : 'rejected');
 }
+function wireCard() { document.querySelectorAll('[data-decide]').forEach((b) => (b.onclick = () => decide(b.dataset.decide === 'yes'))); }
+
+// ------------------------------------------------------------ his board: pages behind the tabs, like the real one (all data made up)
+const blocks = (n, left) => `<div class="b-blocks">${'<i></i>'.repeat(n - left)}${'<i class="left"></i>'.repeat(left)}</div>`;
+const PAGES = {
+  mission: () => `<div class="b-pn" style="--c:#FF3D5A" id="bNeedsPn"><h4>NEEDS YOU <em>${decided ? 0 : 1}</em></h4>${decided
+      ? '<p>Nothing waiting. All clear.</p>'
+      : `<p style="color:var(--text)">Shop team: boost the GlowBop ad, $40 for 3 days.</p>
+      <div class="row"><button class="b-key" type="button" style="--c:var(--amber)" data-decide="yes">APPROVE</button><button class="b-key" type="button" style="--c:var(--soft)" data-decide="no">NOT NOW</button></div>`}</div>
+    <div class="b-pn" style="--c:#FF8A1F"><h4>TODAY'S MISSION <em>4 ON YOUR LANE</em></h4><ul>
+      <li>Reply to the support email<span class="b-tag you">YOU</span></li>
+      <li>Check the GlowBop launch list<span class="b-tag">EDISON</span></li>
+      <li>Approve the launch post wording<span class="b-tag you">YOU</span></li>
+      <li>Sort the shop's new ad clips<span class="b-tag">EDISON</span></li></ul></div>
+    <div class="b-pn" style="--c:#FFE03B"><h4>GLOWBOP LAUNCH <em>FRI</em></h4><div class="b-big">1 <small>day to go</small></div>${blocks(14, 1)}</div>`,
+  ops: () => `<div class="b-pn" style="--c:#FF8A1F"><h4>ROUTINES</h4><ul>
+      <li>Tile refresh, hourly<span class="b-tag ok">FIRED</span></li>
+      <li>Laptop cleanup, every 10 min<span class="b-tag ok">FIRED</span></li>
+      <li>Voice engine, on this PC<span class="b-tag up">UP</span></li>
+      <li>Weekly planning, Mondays<span class="b-tag">SET</span></li></ul></div>
+    <div class="b-pn" style="--c:var(--lime)"><h4>SELF-CHECK <em>2 MIN AGO</em></h4><ul>
+      <li>Memory and disk<span class="b-tag ok">OK</span></li><li>Smart home link<span class="b-tag ok">OK</span></li></ul></div>`,
+  glowbop: () => `<div class="b-pn" style="--c:#FFE03B"><h4>GLOWBOP <em>MUSIC-REACTIVE LIGHTS</em></h4><p>Graham's app that makes your lights dance to whatever is playing.</p></div>
+    <div class="b-pn" style="--c:var(--pink)"><h4>GLOWBOP TEAM <em>3 AGENTS</em></h4><ul>
+      <li>CEO: launch list<span class="b-tag up">WORKING</span></li><li>Marketing: launch post<span class="b-tag you">NEEDS YOU</span></li><li>Support: inbox<span class="b-tag ok">CLEAR</span></li></ul></div>
+    <div class="b-pn" style="--c:var(--lime)"><h4>OVERNIGHT</h4><div class="b-big">3 <small>sales · 41 new visitors</small></div></div>`,
+  shop: () => `<div class="b-pn" style="--c:var(--lime)"><h4>SHOP HQ <em>TIKTOK SHOP</em></h4><ul>
+      <li>New ad clips rendering<span class="b-tag up">3</span></li><li>Product waiting for your OK<span class="b-tag you">1</span></li><li>Best ad this week, 2.1% clicks<span class="b-tag ok">LIVE</span></li></ul></div>`,
+  life: () => `<div class="b-pn" style="--c:var(--cyan)"><h4>CALENDAR <em>TODAY</em></h4><ul>
+      <li>GlowBop launch call<span class="mono c-amber">11:00</span></li><li>Dentist<span class="mono c-amber">15:30</span></li><li>Dinner with Sam<span class="mono c-amber">19:00</span></li></ul></div>
+    <div class="b-pn" style="--c:var(--violet)"><h4>WEATHER <em>DEMO</em></h4><ul><li>Sunny<span class="mono">78°</span></li><li>High and low<span class="mono">84° / 69°</span></li></ul></div>`,
+  home: () => `<div class="b-pn" style="--c:var(--violet)"><h4>HOME <em>READ ONLY BUT THE TV</em></h4><ul>
+      <li>Living room TV<span class="b-tag ${tvOn ? 'ok' : ''}">${tvOn ? 'ON' : 'OFF'}</span></li><li>Front door<span class="b-tag ok">LOCKED</span></li><li>Thermostat<span class="mono">72°</span></li></ul></div>`
+};
+const PAGE_LINES = {
+  mission: 'Your mission board. One thing needs you, and the GlowBop launch is tomorrow.',
+  ops: 'Operations. Every routine fired on time, and my self-check is clean.',
+  glowbop: "GlowBop, Graham's music-reactive lights app. The team is on the launch list, and it sold three overnight.",
+  shop: 'The shop. Three new ad clips are rendering, and one product is waiting for your OK.',
+  life: "Your day. The launch call at eleven, the dentist at half three, dinner with Sam at seven, and it's a sunny seventy-eight.",
+  home: "The house. The front door is locked, and the living room TV is off. Say the word, and I'll put it on."
+};
+const PAGE_DONE = { mission: 'Your mission board.', ops: 'Operations.', glowbop: 'GlowBop.', shop: 'Shop HQ.', life: 'Your day.', home: 'The house.' };
+const tabs = [...document.querySelectorAll('.b-tab')], bPage = $('#bPage');
+let page = 'mission', tvOn = false;
+function showPage(p) {
+  page = p; tabs.forEach((t) => t.setAttribute('aria-selected', String(t.dataset.page === p)));
+  bPage.innerHTML = PAGES[p](); wireCard();
+  bPage.querySelectorAll('.b-pn').forEach((n) => n.classList.add('bt')); // dark until his opening powers the board on
+}
+tabs.forEach((t) => (t.onclick = () => {
+  const p = t.dataset.page; showPage(p);
+  if (!reduced) bPage.querySelectorAll('.b-pn').forEach((n, i) => setTimeout(() => n.classList.add('bt-boot'), i * 70));
+  SND('chirp'); if (!awake) return;
+  clearAll(); const id = ++run; busy(true); youLine.hidden = true; screen.innerHTML = '';
+  say(PAGE_LINES[p], id, () => afterTurn(id));
+}));
+showPage('mission');
+$('#bStop').onclick = () => { clearAll(); ++run; busy(false); mood('idle'); state('STANDING BY'); cutIn.disabled = true; himLine.textContent = 'Stopped. Everything is paused.'; };
+$('#bMute').onclick = () => { $('#voiceKey').click(); $('#bMute').setAttribute('aria-pressed', String(!voiceOn)); $('#bMute').textContent = voiceOn ? 'MUTE HIM' : 'UNMUTE HIM'; };
+$('#bTalk').onclick = () => { if (!awake) { wake(); return; } const m = $('#micKey'); if (m && !m.hidden) m.click(); else $('#talkIn').focus(); };
+// on phones the board repeats his caption, since his caption box is above it, off screen
+const WIDE = matchMedia('(min-width: 980px)'), bSay = $('#bSay');
+new MutationObserver(() => { bSay.textContent = himLine.textContent; }).observe(himLine, { childList: true, characterData: true, subtree: true });
+// Edison on his board: he flies to his dock (top left) when the board is ready, then drifts to a new spot every few seconds
+const bEd = $('#bEd'), boardEl = $('.console-board');
+const edTo = (x, y, s) => { bEd.style.setProperty('--x', Math.round(x) + 'px'); bEd.style.setProperty('--y', Math.round(y) + 'px'); bEd.style.setProperty('--s', s); };
+const dockEd = () => edTo(4, 22, 1);
+function roamEd() {
+  const W = boardEl.clientWidth, H = boardEl.clientHeight, s = bEd.offsetWidth, r = (a, b) => a + Math.random() * Math.max(0, b - a);
+  edTo(r(8, W - s - 8), r(40, H - s - 8), 1);
+}
+setInterval(() => { if (awake && !reduced && !document.hidden) roamEd(); }, 5200);
+// the board's clock is the visitor's own time
+const clockTick = () => { const d = new Date(); $('#bClock').innerHTML = `DEMO <b>${d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}</b>`; };
+clockTick(); setInterval(clockTick, 15000);
 
 // ------------------------------------------------------------ talk to him: type anything (or use the mic) and he answers
 // The demo runs offline on a script, so he understands a set of common things people ask, and for anything else he says
@@ -335,7 +413,7 @@ async function wake() {
   if (window.EdisonOpeningSound && soundOn) { try { await window.EdisonOpeningSound.ready(); } catch (e) {} }
   const pieces = [...consoleEl.querySelectorAll('.bt')];
   if (reduced) {
-    consoleEl.classList.remove('asleep'); demoMark.classList.add('on'); scaleGlobe(1);
+    consoleEl.classList.remove('asleep'); demoMark.classList.add('on'); scaleGlobe(1); dockEd();
     await sayP("Hello, I'm Edison.", id, 'hello');
     await sayP('Let me get your board ready.', id, 'ready');
   } else {
@@ -351,15 +429,16 @@ async function wake() {
     demoMark.classList.add('on'); SND('twinkle'); await Promise.all([playClip('name'), wait(800)]);
     SND('wink'); mood('happy'); await wait(650); mood('idle');
     await sayP("Hello, I'm Edison.", id, 'hello'); await wait(120);
-    // the board's pieces flicker on one by one while he says he is getting it ready
+    // the board's pieces flicker on one by one while he says he is getting it ready (on phones the board is below him, so the page glides down to it)
+    if (!WIDE.matches) $('.console-board').scrollIntoView({ behavior: 'smooth', block: 'start' });
     const boot = (async () => {
       SND('whoosh'); await wait(250);
-      for (const p of pieces) { SND('chirp'); p.classList.add('bt-boot'); await wait(70); }
+      for (const p of pieces) { SND('chirp'); p.classList.add('bt-boot'); await wait(60); } // top bar, down the rail, panels, then the keys
       await wait(500);
     })();
     await Promise.all([sayP('Let me get your board ready.', id, 'ready'), boot]);
     consoleEl.classList.remove('asleep'); pieces.forEach((p) => p.classList.remove('bt-boot'));
-    SND('online'); await wait(350);
+    SND('online'); dockEd(); await wait(350);
   }
   if (id !== run) return;
   awake = true; opening = false;
@@ -375,6 +454,26 @@ consoleEl.addEventListener('click', (e) => { if (!awake && !opening && !e.target
 
 // "Talk to him" in the hero: scroll to the demo and wake him in the same tap (the tap is what lets the browser play sound)
 document.querySelectorAll('a[data-wake]').forEach((a) => a.addEventListener('click', () => { if (!awake && !opening) wake(); }));
+
+// The first time someone touches the page, he says hello (Graham, 2026-10-27). Browsers only allow sound after a tap, so this
+// waits for one; a tap that wakes the demo skips it, since his opening says hello anyway.
+const TOUCH = ['pointerup', 'touchend', 'click', 'keydown'];
+let helloed = false;
+const helloDone = () => { helloed = true; TOUCH.forEach((t) => document.removeEventListener(t, firstTouch, true)); };
+async function firstTouch(e) {
+  if (helloed) return;
+  if (e.target.closest && e.target.closest('#console, a[data-wake]')) return helloDone();
+  const c = vctx(); if (!c) return helloDone();
+  try { await c.resume(); } catch (err) {}
+  if (c.state !== 'running' || helloed || awake || opening) return; // no sound allowed yet: try again on the next touch
+  helloDone();
+  const bubble = $('#heroSay'); bubble.textContent = "Hello, I'm Edison."; bubble.classList.add('on');
+  try { hero && hero.setMood('speaking'); } catch (err) {}
+  await playClip('hello');
+  try { hero && hero.setMood('happy'); setTimeout(() => hero && hero.setMood('idle'), 1200); } catch (err) {}
+  setTimeout(() => bubble.classList.remove('on'), 2200);
+}
+TOUCH.forEach((t) => document.addEventListener(t, firstTouch, true));
 
 // ------------------------------------------------------------ the crew list form
 // Connected to Kit's "Edison crew" form (double opt-in; after confirming, Kit sends people to /crew/).

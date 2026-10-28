@@ -26,7 +26,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800&family=Saira+Condensed:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }</script>
-<link rel="stylesheet" href="site.css">
+<link rel="stylesheet" href="site.css?v=4">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -57,7 +57,7 @@
 <!-- HERO -->
 <section class="hero" id="top" aria-labelledby="hero-title">
   <div class="sky" aria-hidden="true"></div>
-  <div class="hero-globe" id="heroGlobe"></div>
+  <div class="hero-globe" id="heroGlobe"><p class="hero-say" id="heroSay" aria-live="polite"></p></div>
   <div class="hero-copy">
     <p class="mark mark-hero" aria-hidden="true">EDIS<span class="o"><canvas class="markO" width="192" height="192"></canvas></span>N</p>
     <p class="kicker"><span class="kdot" aria-hidden="true"></span>AI butler · runs on your PC</p>
@@ -103,6 +103,45 @@
           <button class="pill pill-ghost pill-sm" id="soundKey" type="button" aria-pressed="true">Sound cues on</button>
           <button class="pill pill-ghost pill-sm" id="voiceKey" type="button" aria-pressed="true">His voice on</button>
         </div>
+      </div>
+
+      <!-- His board, as on the real LCARS board: it powers on piece by piece while he says he is getting it ready.
+           Tabs, keys and panels all work; every number on it is made up. -->
+      <div class="lc lc-cyan console-board">
+        <span class="lc-label bt">HIS BOARD · DEMO DATA</span>
+        <div class="b-ed" id="bEd" aria-hidden="true"></div>
+        <div class="board" id="board">
+          <div class="b-top">
+            <span class="b-stat bt" style="--c:var(--pink)" id="bNeeds">NEEDS YOU 1</span>
+            <span class="b-stat bt" style="--c:var(--cyan)">TEAM 3 ON</span>
+            <span class="b-stat bt" style="--c:var(--amber)">WEEK 28%</span>
+            <button class="b-key bt" type="button" id="bStop" style="--c:var(--pink)">STOP ALL</button>
+            <span class="b-clock mono bt" id="bClock">DEMO</span>
+          </div>
+          <div class="b-body">
+            <div class="b-rail" role="tablist" aria-label="His board's pages">
+              <button class="b-tab bt" role="tab" type="button" data-page="mission" style="--c:#FF3D5A" aria-selected="true"><span>01</span>MISSION</button>
+              <button class="b-tab bt" role="tab" type="button" data-page="ops" style="--c:#FF8A1F" aria-selected="false"><span>02</span>OPS</button>
+              <button class="b-tab bt" role="tab" type="button" data-page="glowbop" style="--c:#FFE03B" aria-selected="false"><span>03</span>GLOWBOP</button>
+              <button class="b-tab bt" role="tab" type="button" data-page="shop" style="--c:var(--lime)" aria-selected="false"><span>04</span>SHOP HQ</button>
+              <button class="b-tab bt" role="tab" type="button" data-page="life" style="--c:var(--cyan)" aria-selected="false"><span>05</span>LIFE</button>
+              <button class="b-tab bt" role="tab" type="button" data-page="home" style="--c:var(--violet)" aria-selected="false"><span>06</span>HOME</button>
+            </div>
+            <div class="b-main" role="tabpanel" aria-live="polite">
+              <div class="b-screen" id="screen"></div>
+              <div class="b-page" id="bPage"></div>
+            </div>
+          </div>
+          <p class="b-say" id="bSay" aria-hidden="true"></p>
+          <div class="b-bot">
+            <button class="b-key b-key-wide bt" type="button" id="bTalk" style="--c:var(--amber)">TAP HERE TO TALK TO HIM</button>
+            <button class="b-key bt" type="button" id="bMute" style="--c:var(--violet)" aria-pressed="false">MUTE HIM</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="lc lc-pink console-talk">
+        <span class="lc-label bt">SAY SOMETHING</span>
         <div class="asks" role="group" aria-label="Things to say to Edison">
           <button class="ask bt" type="button" data-scene="today">What's on today?</button>
           <button class="ask bt" type="button" data-scene="team">Have the GlowBop team check the launch list.</button>
@@ -120,16 +159,6 @@
           <button class="pill pill-cyan" type="submit">Send</button>
         </form>
         <p class="fine" id="voiceNote">Captions are always on.</p>
-      </div>
-
-      <div class="lc lc-cyan console-side bt">
-        <span class="lc-label">ON HIS SCREEN</span>
-        <div class="screen" id="screen">
-          <div class="screen-empty">
-            <p class="mono">NO CARDS</p>
-            <p>Calendars, team reports and approvals show up here while he talks.</p>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -348,6 +377,6 @@
 <script src="edison-opening-sound.js"></script>
 <script src="edison-voice-fx.js"></script>
 <script src="edison-cues.js"></script>
-<script type="module" src="site.js"></script>
+<script type="module" src="site.js?v=4"></script>
 </body>
 </html>
