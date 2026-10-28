@@ -1,6 +1,7 @@
 // Edison website: two globes (hero and demo), the scripted "Try him" demo with made-up data and his board, sound cue
 // buttons, the first-touch hello, and the crew list form (sent to Kit).
 import { mountGlobe } from './edison-globe.js';
+import { TALK, SCENE_NEXT, INTENTS } from './edison-talk.js?v=8';
 
 const $ = (s) => document.querySelector(s);
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -145,7 +146,7 @@ function say(text, id, done, clipId) {
 }
 
 function play(key, btn, heard) {
-  clearAll(); const id = ++run, s = SCENES[key];
+  clearAll(); chips([]); const id = ++run, s = SCENES[key];
   asks.forEach((b) => b.setAttribute('aria-pressed', b === btn)); busy(true);
   youLine.hidden = false; youLine.textContent = heard || s.ask; himLine.textContent = ''; srLine.textContent = '';
   mood('listening'); state('LISTENING', 'on');
@@ -156,10 +157,10 @@ function play(key, btn, heard) {
     showPage(SCENE_PAGE[key] || page); show(s.card);
     if (s.hint) himLine.dataset.hint = '1';
     later(() => say(s.say, id, () => {
-      if (!s.after) return afterTurn(id);
+      if (!s.after) return afterTurn(id, SCENE_NEXT[key]);
       later(() => {
         cue(s.after.cue); show(s.after.card);
-        say(s.after.say, id, () => afterTurn(id), s.after.clip);
+        say(s.after.say, id, () => afterTurn(id, SCENE_NEXT[key]), s.after.clip);
       }, s.after.wait);
     }, key), 450);
   }, 2600);
@@ -191,7 +192,7 @@ function decide(yes) {
   $('#bNeeds').textContent = 'NEEDS YOU 0';
   clearAll(); const id = ++run; busy(true);
   cue(yes ? 'done' : 'ready');
-  say(yes ? "Approved. The ad is boosted, and it's in the log." : "Understood. Nothing was spent.", id, () => busy(false), yes ? 'approved' : 'rejected');
+  say(yes ? "Approved. The ad is boosted, and it's in the log." : "Understood. Nothing was spent.", id, () => { busy(false); chips(SCENE_NEXT.decided); }, yes ? 'approved' : 'rejected');
 }
 function wireCard() { document.querySelectorAll('[data-decide]').forEach((b) => (b.onclick = () => decide(b.dataset.decide === 'yes'))); }
 
@@ -267,7 +268,7 @@ const TOUR = [
   { page: 'mission', card: null }
 ];
 async function tour(heard) {
-  clearAll(); const id = ++run; busy(true);
+  clearAll(); chips([]); const id = ++run; busy(true);
   asks.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.scene === 'tour')));
   youLine.hidden = false; youLine.textContent = heard || 'What can you do?'; himLine.textContent = ''; srLine.textContent = '';
   mood('listening'); state('LISTENING', 'on');
@@ -279,7 +280,7 @@ async function tour(heard) {
     if (id !== run) return;
     await wait(500); if (id !== run) return;
   }
-  afterTurn(id);
+  afterTurn(id, SCENE_NEXT.tour);
 }
 // The tour's words (the same lines as voice-lines.json, so captions and voice match)
 const VOICE_TEXT = {
@@ -323,118 +324,75 @@ const clockTick = () => { const d = new Date(); $('#bClock').innerHTML = `DEMO <
 clockTick(); setInterval(clockTick, 15000);
 
 // ------------------------------------------------------------ talk to him: type anything (or use the mic) and he answers
-// The demo runs offline on a script, so he understands a set of common things people ask, and for anything else he says
-// so with charm and points to the waitlist. Every few turns he tells you how well you two get along (Graham, 2026-10-27).
+// The demo runs on a script (edison-talk.js): trigger words pick his answer, each answer has a few versions, and every
+// reply ends with suggestion buttons. Anything he doesn't know gets a friendly redirect, never "I'm offline". Every few
+// turns he tells you how well you two get along (Graham, 2026-10-27).
 const LINES = {
   greetMorning: 'Good morning. What can I take off your plate?',
   greetAfternoon: 'Good afternoon. What can I take off your plate?',
   greet: 'Good evening. What can I take off your plate?',
   invite: "Tap a line below, or just type anything to me. I'm all ears.",
-  hi: 'Hello! Lovely to meet you. Ask me about your day, your team, or your house.',
-  who: "I'm Edison, a voice chief of staff. I run Graham's day, his AI team and his house, right from his desk.",
-  movie: "I do get compared to a certain movie butler. I'll take it. Though I'd say I'm rather better with a calendar.",
-  price: "I'm not for sale just yet. Join the waitlist, and you'll be the first to hear, with early access.",
-  privacy: 'Your voice stays on your own computer, and I always ask before I spend, send or post anything. No surprises.',
-  can: "Plenty. Your calendar, your inbox, your team's jobs, even your TV. Tap one of the lines below, and I'll show you.",
-  weather: "In the full version I'd check that for you in a second. Here in the demo I'm offline, I'm afraid.",
-  joke: "I'd tell you a joke about an unfinished task, but I always finish them.",
-  thanks: "My pleasure. Honestly, you're very easy to work for.",
-  howru: "All systems well, thank you. Better now you're here.",
-  like: "The feeling's mutual. We do get along rather well, don't we?",
-  join: "Splendid. The waitlist is just below. I'll save you a seat.",
-  install: "Right now I live on Windows, with your own Claude plan. Join the list, and you'll hear the moment I'm ready to install.",
-  maker: 'Graham Lucht built me. He runs two businesses, and I keep him on track. Mostly.',
-  whyName: 'Edison, after the inventor. I try to live up to the name, one good idea at a time.',
-  bye: "Goodbye for now. Do join the waitlist. I'd hate to lose you.",
-  offline1: "That's a good one. I'm running offline in this demo, so I can't do that here. The full me could. Join the waitlist, and I'll show you.",
-  offline2: "I'd love to help with that properly. In this demo I'm offline and on a script, I'm afraid. Sign up, and you'll get the real me.",
-  offline3: "Ah, you've found the edge of my demo. The full version handles that sort of thing. The waitlist is just below.",
-  offline4: "I'm only a demo copy, so that's beyond me today. But between us, we'd get on brilliantly. Do sign up.",
   rapport1: "You know, we're getting along rather well. You'd be very easy to work with. The waitlist is just below.",
   rapport2: "I must say, you ask good questions. I think we'd make a fine team. Sign up, and let's make it official.",
   rapport3: "I've enjoyed this. Truly. Put your name on the list, and I'll be at your desk before you know it.",
-  micOff: "I couldn't quite hear you there. Try again, or type it to me.",
-  // the first thing most people ask (Graham, 2026-10-27): is he really there?
-  hearMe: "Loud and clear. You're talking to a demo copy of me, right here in your browser. I know the common questions, and I'll tell you honestly when something's beyond me. The real me listens on your own computer and answers anything.",
-  areYouReal: "That's my real voice, made by my own voice engine on Graham's PC. But this is a demo copy of me, running on a script in your browser. The live me runs on your own computer, with your own accounts, and he's rather quicker on his feet.",
-  // short answers about one part of what he does (what-edison-does-script.md)
-  capHome: "Home automation, yes. I read your whole smart home, the doors, the thermostat, the lights, and I only switch what you allow, one device at a time. In this demo, that's the TV.",
-  capSchedule: "I read your calendar, tell you what's next, keep your reminders, and give you the short version every morning. I don't move anything without asking.",
-  capEmail: "I read your inbox and flag what matters, so you don't have to dig. Sending anything always waits for your OK.",
-  capMemory: 'I keep a journal of every day, with weekly and monthly summaries, so I remember what we did and what you decided.',
-  capShop: 'A scout reads the trending products every morning, the good ones go into the pipeline, and I track every product from idea to ad. Spending always waits for you.',
-  capLook: 'Make me yours. Pick my look and colors, mix my voice from several, and write the lines I say when I wake up.',
-  capConnect: 'I plug into Gmail, Google Calendar, Drive, Notion and Home Assistant, all read only until you say otherwise.'
+  micOff: "I couldn't quite hear you there. Try again, or type it to me."
 };
 const PITCH = `<div class="card lime"><h4>Waitlist</h4><p>Early access, the build log, and first word when Edison is ready to install.</p>
   <div class="row"><a class="pill pill-pink pill-sm" href="#join">Join the crew</a></div></div>`;
-const OFFLINE = `<div class="card pink"><h4>Demo limit</h4><p>This demo runs offline, on a script. The full Edison would handle that live, with your own accounts.</p>
-  <div class="row"><a class="pill pill-pink pill-sm" href="#join">Join the crew</a></div></div>`;
-// What people say, in order: the demo's own scenes first, then the common questions. First match wins.
-const INTENTS = [
-  [/\b(sign ?(me )?up|wait ?list|join|subscribe|count me in|early access)\b/, 'join'],
-  [/\b(price|pricing|cost|how much|buy|purchase|pay|paid|subscription)\b/, 'price'],
-  [/\b(mac|windows|install|download|iphone|android|linux|requirements?)\b/, 'install'],
-  [/\b(can you hear me|do you hear me|hear me|are you listening|listening to me|am i (talking|speaking) to you|you there|anyone there|hello\?+)/, 'hearMe'],
-  [/\b(are you (real|live|alive|human|a bot|a robot|an ai|ai|recorded|really edison|a person)|is (this|that) (really )?(you|real|live|recorded|ai|a recording)|real person|pre-?recorded|just a script)\b/, 'areYouReal'],
-  [/\b(privacy|private|safe|safety|secure|security|my data|spy|record(ing)? me)\b/, 'privacy'],
-  [/\b(jarvis|iron ?man|tony stark|movie|film)\b/, 'movie'],
-  [/\b(who (made|built|created|designed) you|your (maker|creator|dad)|graham)\b/, 'maker'],
-  [/\b(why .*edison|your name|named)\b/, 'whyName'],
-  [/\b(what (can|do|does) (you|he|edison) do|what (else )?can you do|everything you (can )?do|what are you (good|capable)|features|capabilit\w*|tour|show me around|what('?s| is) (it|he|edison) for|help me with)\b/, '@tour'],
-  [/\b(are you ok(ay)?|self.?check|status report|diagnostic)\b/, '@check'],
-  [/\b(how are you|how're you|how do you do|how('s| is) it going|you well)\b/, 'howru'],
-  [/\b(who are you|what are you|what is edison|about yourself|introduce)\b/, 'who'],
-  [/\b(launch plan|walk me through)\b/, '@long'],
-  [/\b((manage|handle|organi[sz]e|run|book|do|help with|keep) (my |the )?(schedule|calendar|appointments)|scheduling|remind\w*)\b/, 'capSchedule'],
-  [/\b(what'?s on|my day|calendar|schedule|agenda|today|meetings?)\b/, '@today'],
-  [/\b(team|checklist|launch list|delegate)\b/, '@team'],
-  [/\b(ad|ads|boost|spend|budget|campaign)\b/, '@spend'],
-  [/\b(tv|television|youtube|netflix)\b/, '@tv'],
-  [/\b(home automation|smart ?home|lights?|thermostat|lock|doors?|alexa|google home|home assistant|automat\w*)\b/, 'capHome'],
-  [/\b(schedul\w*|remind\w*|plan (my|the) week|appointments?|organi[sz]e)\b/, 'capSchedule'],
-  [/\b(e-?mails?|inbox|gmail|outlook)\b/, 'capEmail'],
-  [/\b(remember|memory|memories|journal|forget)\b/, 'capMemory'],
-  [/\b(shop|tiktok|products?|store|ecommerce|sales)\b/, 'capShop'],
-  [/\b(customi[sz]\w*|change (your|the) (look|voice)|themes?|colou?rs?|personali[sz]\w*|your voice|accent)\b/, 'capLook'],
-  [/\b(connect\w*|integrat\w*|plug ?ins?|notion|google drive|drive|apps?)\b/, 'capConnect'],
-  [/\b(thanks|thank you|cheers|appreciate)\b/, 'thanks'],
-  [/\b(love you|like you|(you'?re|you are) (great|awesome|cool|amazing|brilliant|funny|the best)|good job|well done|good boy|nice one)\b/, 'like'],
-  [/\b(joke|funny|make me laugh)\b/, 'joke'],
-  [/\b(weather|news|stocks?|score|traffic|time is it|forecast|temperature|search|google|email|text|call)\b/, 'weather'],
-  [/\b(what can you do|help|features|what do you do|capabilit)/, 'can'],
-  [/^(hi|hello|hey|hiya|howdy|yo|good (morning|afternoon|evening)|greetings)\b/, 'hi'],
-  [/\b(bye|goodbye|see you|see ya|good ?night|later)\b/, 'bye']
-];
-const PITCHY = new Set(['join', 'price', 'install', 'rapport1', 'rapport2', 'rapport3']);
-let turns = 0, offlineAt = 0;
+const PITCHY = new Set(['join', 'price', 'install', 'bye']);
+// Pick one version of an answer, never the same one twice running. Version 1 uses the plain id (its clip), others id_2, id_3...
+const lastPick = {};
+function pickLine(id) {
+  const all = TALK[id].say; let i = Math.floor(Math.random() * all.length);
+  if (all.length > 1 && i === lastPick[id]) i = (i + 1) % all.length;
+  lastPick[id] = i; return { text: all[i], clip: i === 0 ? id : id + '_' + (i + 1) };
+}
+// The suggestion buttons under his reply (and on his board, on phones): tap one and it is said to him
+const chipBoxes = [$('#chips'), $('#bChips')];
+function chips(list) {
+  chipBoxes.forEach((box) => {
+    box.innerHTML = '';
+    (list || []).forEach((t) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.textContent = t; b.onclick = () => talk(t); box.append(b); });
+  });
+}
+let turns = 0, visitor = '';
 function intent(text) {
-  for (const [re, id] of INTENTS) if (re.test(text)) return id;
-  offlineAt = offlineAt % 4 + 1; return 'offline' + offlineAt;
+  for (const [re, id] of INTENTS) { const m = text.match(re); if (m) return { id, m }; }
+  return { id: 'other', m: null };
 }
 // After each finished turn, every so often he tells you how well you two get along, and points to the list
-function afterTurn(id) {
-  busy(false); turns++;
+function afterTurn(id, next) {
+  busy(false); turns++; chips(next);
   const r = { 3: 'rapport1', 7: 'rapport2', 12: 'rapport3' }[turns];
-  if (r) later(() => { if (id !== run) return; busy(true); cue('ready'); screen.innerHTML = PITCH; say(LINES[r], id, () => busy(false), r); }, 1100);
+  if (r) later(() => { if (id !== run) return; busy(true); cue('ready'); screen.innerHTML = PITCH; say(LINES[r], id, () => { busy(false); chips(['Sign me up', ...(next || []).slice(0, 2)]); }, r); }, 1100);
 }
 async function talk(raw) {
   const text = String(raw || '').trim().slice(0, 160); if (!text) return;
   if (!awake) { if (!opening) await wake(); if (!awake) return; }
   const t = text.toLowerCase().replace(/^(hey|hi|ok|okay|yo)?[\s,]*edison\b[\s,.!?]*/, '').trim() || 'hello';
-  const hit = intent(t);
+  const { id: hit, m } = intent(t);
   if (hit === '@tour') return tour(text);
   if (hit[0] === '@') return play(hit.slice(1), null, text);
-  clearAll(); const id = ++run; busy(true);
+  clearAll(); const id = ++run; busy(true); chips([]);
   asks.forEach((b) => b.setAttribute('aria-pressed', 'false'));
   youLine.hidden = false; youLine.textContent = text; himLine.textContent = ''; srLine.textContent = '';
   mood('listening'); state('LISTENING', 'on');
   later(() => { cue('heard'); mood('idle'); state('THINKING', 'think'); himLine.innerHTML = '<span class="cut">thinking...</span>'; }, 700);
   later(() => {
     cue('ready');
-    if (hit.startsWith('offline') || hit === 'weather') screen.innerHTML = OFFLINE; else if (PITCHY.has(hit)) screen.innerHTML = PITCH;
+    // the visitor's own clock, and their name, are the live bits: captions only, since no recording can say them
+    let line, clipId = null, next = ['What can you do?', 'Tell me a joke'];
+    const now = new Date(), hrs = now.getHours();
+    if (hit === 'time') line = `It's ${now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })} on your clock. ${hrs < 12 ? 'Still morning. Plenty of day left.' : hrs < 18 ? 'Good time for a short break, I would say.' : 'Evening already. Shall we wrap up the day?'}`;
+    else if (hit === 'date') line = `It's ${now.toLocaleDateString([], { weekday: 'long', month: 'long', day: 'numeric' })}, by your clock. On my demo board, it's always launch week.`;
+    else {
+      const p = pickLine(hit); line = p.text; clipId = p.clip; next = TALK[hit].next;
+      if (hit === 'name' && m) { visitor = m[2].trim().split(/\s+/)[0].replace(/^./, (c) => c.toUpperCase()); line = `Lovely to meet you, ${visitor}. I'll remember that.`; }
+    }
+    if (PITCHY.has(hit)) screen.innerHTML = PITCH;
     else if (CAPS[hit]) { showPage(CAPS[hit].page); screen.innerHTML = CAPS[hit].card(); }
-    say(LINES[hit], id, () => { if (hit === 'join') { $('#join').scrollIntoView({ behavior: reduced ? 'auto' : 'smooth' }); later(() => $('#email').focus({ preventScroll: true }), 900); } afterTurn(id); }, hit);
+    else if (TALK[hit] && TALK[hit].page) showPage(TALK[hit].page);
+    say(line, id, () => { if (hit === 'join') { $('#join').scrollIntoView({ behavior: reduced ? 'auto' : 'smooth' }); later(() => $('#email').focus({ preventScroll: true }), 900); } afterTurn(id, next); }, clipId);
   }, 1500);
 }
 $('#talkForm').addEventListener('submit', (e) => { e.preventDefault(); const v = $('#talkIn').value; $('#talkIn').value = ''; talk(v); });
@@ -523,6 +481,7 @@ async function wake() {
   await sayP(LINES[g], id, g);
   if (id !== run) return;
   himLine.textContent = LINES.invite; srLine.textContent = LINES.invite;
+  chips(['Can you hear me?', 'What can you do?', "What's on today?"]);
   busy(false);
 }
 wakeKey.onclick = wake;

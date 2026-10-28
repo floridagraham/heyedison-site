@@ -330,3 +330,15 @@ a { color: inherit; }
   .demo-globe, .mark-demo { transition: none; }
   .pill, .ask { transition: none; }
 }
+
+/* ------------------------------------------------------------ suggestion buttons after each reply (tap one to say it) */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.chips:empty { display: none; }
+.chip { min-height: 44px; padding: 0 16px; border: 0; border-radius: 999px; background: var(--tint2); color: var(--cyan); box-shadow: inset 0 0 0 1.5px var(--cyan);
+  font: 600 15px/1.2 var(--ui); cursor: pointer; touch-action: manipulation; text-align: left; animation: cardIn .3s ease both; }
+.chip:hover { background: #33238a; }
+.b-chips { margin-top: 0; }
+@media (min-width: 980px) { .b-chips { display: none !important; } }
+/* the mic is a proper "Talk" button, so people speak to him instead of typing */
+.mic { width: auto; padding: 0 18px 0 14px; gap: 6px; display: inline-flex; align-items: center; border-radius: 999px; font: 700 15px/1 var(--cond); letter-spacing: .1em; text-transform: uppercase; }
+@media (max-width: 520px) { .talk-box { flex-wrap: wrap; } .talk-box input { flex-basis: 100%; } .talk-box .mic, .talk-box .pill { flex: 1; justify-content: center; } }

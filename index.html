@@ -26,7 +26,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800&family=Saira+Condensed:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }</script>
-<link rel="stylesheet" href="site.css?v=6">
+<link rel="stylesheet" href="site.css?v=9">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -97,6 +97,7 @@
           <p class="you" id="youLine" hidden></p>
           <p class="him" id="himLine">He is asleep. Tap Wake Edison to start him up.</p>
           <p class="sr-only" aria-live="polite" id="srLine"></p>
+          <div class="chips" id="chips" role="group" aria-label="Things to say next"></div>
         </div>
         <div class="talk-row bt">
           <button class="pill pill-amber" id="cutIn" type="button" disabled>Talk over him</button>
@@ -133,6 +134,7 @@
             </div>
           </div>
           <p class="b-say" id="bSay" aria-hidden="true"></p>
+          <div class="chips b-chips" id="bChips" aria-hidden="true"></div>
           <div class="b-bot">
             <button class="b-key b-key-wide bt" type="button" id="bTalk" style="--c:var(--amber)">TAP HERE TO TALK TO HIM</button>
             <button class="b-key bt" type="button" id="bMute" style="--c:var(--violet)" aria-pressed="false">MUTE HIM</button>
@@ -156,7 +158,7 @@
           <label class="sr-only" for="talkIn">Say anything to Edison</label>
           <input id="talkIn" type="text" maxlength="160" placeholder="Say anything to Edison...">
           <button class="mic" id="micKey" type="button" aria-label="Talk to Edison with your microphone" hidden>
-            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-2.08A7 7 0 0 0 19 12h-2Z"/></svg>
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-2.08A7 7 0 0 0 19 12h-2Z"/></svg><span>Talk</span>
           </button>
           <button class="pill pill-cyan" type="submit">Send</button>
         </form>
@@ -379,6 +381,6 @@
 <script src="edison-opening-sound.js"></script>
 <script src="edison-voice-fx.js"></script>
 <script src="edison-cues.js"></script>
-<script type="module" src="site.js?v=6"></script>
+<script type="module" src="site.js?v=8"></script>
 </body>
 </html>
