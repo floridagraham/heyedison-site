@@ -164,7 +164,7 @@ function play(key, btn, heard) {
     }, key), 450);
   }, 2600);
 }
-asks.forEach((b) => (b.onclick = () => play(b.dataset.scene, b)));
+asks.forEach((b) => (b.onclick = () => (b.dataset.say ? talk(b.dataset.say) : b.dataset.scene === 'tour' ? tour() : play(b.dataset.scene, b))));
 
 // Talk over him: he stops, drops the rest, listens, then answers what you actually said
 cutIn.onclick = () => {
@@ -248,8 +248,60 @@ tabs.forEach((t) => (t.onclick = () => {
   if (!reduced) bPage.querySelectorAll('.b-pn').forEach((n, i) => setTimeout(() => n.classList.add('bt-boot'), i * 70));
   SND('chirp'); if (!awake) return;
   clearAll(); const id = ++run; busy(true); youLine.hidden = true; screen.innerHTML = '';
-  say(PAGE_LINES[p], id, () => afterTurn(id));
+  say(PAGE_LINES[p], id, () => afterTurn(id), 'page_' + p);
 }));
+
+// ------------------------------------------------------------ "What can you do?": the tour (what-edison-does-script.md)
+// He walks through everything he does, bringing each part up on his board as he goes. Talk over him or Stop all ends it.
+const tc = (color, title, items) => `<div class="card" style="box-shadow:inset 0 0 0 2px ${color}"><h4 style="color:${color}">${title}</h4><ul>${items.map((i) => `<li class="tick"><span>${i}</span></li>`).join('')}</ul></div>`;
+const TOUR = [
+  { page: 'mission', card: tc('var(--cyan)', 'The tour', ['Talks and listens', 'Runs your day', 'Runs your AI team', 'Watches the shop', 'Asks first', 'Runs the house', 'Looks after himself', 'Yours to shape']) },
+  { page: 'mission', card: tc('var(--pink)', 'Talks and listens', ['Hearing and voice on your own PC', 'Stops in about 70 ms when you cut in', 'Four sound cues: heard, thinking, ready, team back']) },
+  { page: 'life', card: tc('var(--cyan)', 'Runs your day', ['A short morning brief', 'Calendar and inbox, read only', "Reminders, and what's next"]) },
+  { page: 'glowbop', card: tc('#FFE03B', 'Runs your AI team', ['A crew per business: a CEO and specialists', 'Jobs open as chats in your Claude app', 'A chime, then a spoken report']) },
+  { page: 'shop', card: tc('var(--lime)', 'Watches the shop', ['Trending products scouted every morning', 'A pipeline from idea to ad', 'Every stage on his board']) },
+  { page: 'mission', card: tc('var(--amber)', 'Asks first', ['Spend, post, send, delete: all wait on a card', 'The cost and the proof, every time', 'Stop all halts everything at once']) },
+  { page: 'home', card: tc('var(--violet)', 'Runs the house', ['Reads your whole smart home', 'Switches only what you allow', 'Today: the TV, on, off or YouTube']) },
+  { page: 'ops', card: tc('#FF8A1F', 'Looks after himself', ['Self-checks and cleanup every few minutes', "Fixes what's safe, tells you in a sentence", 'A daily journal, so he remembers']) },
+  { page: 'mission', card: tc('var(--pink)', 'Yours to shape', ['Looks and color themes', 'A voice mixer', 'Your own wake-up lines', 'His board on your laptop and tablet']) },
+  { page: 'mission', card: null }
+];
+async function tour(heard) {
+  clearAll(); const id = ++run; busy(true);
+  asks.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.scene === 'tour')));
+  youLine.hidden = false; youLine.textContent = heard || 'What can you do?'; himLine.textContent = ''; srLine.textContent = '';
+  mood('listening'); state('LISTENING', 'on');
+  await wait(800); if (id !== run) return; cue('heard'); state('THINKING', 'think'); mood('idle');
+  await wait(800); if (id !== run) return; cue('ready');
+  for (let i = 0; i < TOUR.length; i++) {
+    const ch = TOUR[i]; showPage(ch.page); screen.innerHTML = ch.card || PITCH;
+    await sayP(VOICE_TEXT['tour' + i], id, 'tour' + i);
+    if (id !== run) return;
+    await wait(500); if (id !== run) return;
+  }
+  afterTurn(id);
+}
+// The tour's words (the same lines as voice-lines.json, so captions and voice match)
+const VOICE_TEXT = {
+  tour0: "Happy to give you the tour. I'll bring each part up on my board as I go. Talk over me any time.",
+  tour1: "First, I talk and I listen. My hearing and my voice run on your own computer, and if you start speaking, I stop in about seventy milliseconds and answer what you actually said. Four little sounds tell you when I've heard you, when I'm thinking, and when I'm ready.",
+  tour2: "I run your day. Each morning I read your calendar and your inbox and give you the short version: what's on, what's changed, and what needs you. I keep your reminders, help plan your week, and tell you what's next before you have to ask.",
+  tour3: "I run your AI team. Each business gets its own crew, a CEO and specialists. Say, have the GlowBop team check the launch list, and I hand it over as a chat in your Claude app. When they're done, you hear a chime, and I read you the report.",
+  tour4: 'For the shop, a scout reads the trending products every morning, the good ones go into the pipeline, and I track every product from idea to ad, so you always know where things stand.',
+  tour5: 'And I always ask first. Anything that spends, posts, sends or deletes waits on a card with the cost and the proof. Nothing happens until you tap approve, and one key stops everything at once.',
+  tour6: "I look after the house too. I read your smart home all day, the doors, the thermostat, the lights, and I only switch what you allow. Right now that's the TV: on, off, or straight to YouTube.",
+  tour7: "I look after myself. Every few minutes I tidy up and check my voice, memory and disk, and I fix what's safe. And I keep a journal of every day, so I remember what we did last week.",
+  tour8: "Finally, I'm yours to shape. Pick my look, mix my voice, write the lines I say when I wake up, and put my board on your laptop and your tablet.",
+  tour9: "That's me. The full version does all of this live, with your own accounts. Join the crew, and I'll be at your desk before you know it."
+};
+// Short answers about one part: which board page and card go with each
+const DEMO_CARD = () => tc('var(--cyan)', 'Demo mode', ['His real voice, made by his own voice engine', 'A demo copy, on a script, in your browser', 'The live Edison runs on your own PC']);
+const CAPS = {
+  hearMe: { page: 'mission', card: DEMO_CARD }, areYouReal: { page: 'mission', card: DEMO_CARD },
+  capHome: { page: 'home', card: () => TOUR[6].card }, capSchedule: { page: 'life', card: () => TOUR[2].card }, capEmail: { page: 'mission', card: () => TOUR[2].card },
+  capMemory: { page: 'ops', card: () => TOUR[7].card }, capShop: { page: 'shop', card: () => TOUR[4].card }, capLook: { page: 'mission', card: () => TOUR[8].card },
+  capConnect: { page: 'ops', card: () => tc('var(--lime)', 'Plugged in', ['Gmail, Google Calendar, Drive', 'Notion', 'Home Assistant and your smart TV', 'All read only until you say otherwise']) }
+};
 showPage('mission');
 $('#bStop').onclick = () => { clearAll(); ++run; busy(false); mood('idle'); state('STANDING BY'); cutIn.disabled = true; himLine.textContent = 'Stopped. Everything is paused.'; };
 $('#bMute').onclick = () => { $('#voiceKey').click(); $('#bMute').setAttribute('aria-pressed', String(!voiceOn)); $('#bMute').textContent = voiceOn ? 'MUTE HIM' : 'UNMUTE HIM'; };
@@ -301,7 +353,18 @@ const LINES = {
   rapport1: "You know, we're getting along rather well. You'd be very easy to work with. The waitlist is just below.",
   rapport2: "I must say, you ask good questions. I think we'd make a fine team. Sign up, and let's make it official.",
   rapport3: "I've enjoyed this. Truly. Put your name on the list, and I'll be at your desk before you know it.",
-  micOff: "I couldn't quite hear you there. Try again, or type it to me."
+  micOff: "I couldn't quite hear you there. Try again, or type it to me.",
+  // the first thing most people ask (Graham, 2026-10-27): is he really there?
+  hearMe: "Loud and clear. You're talking to a demo copy of me, right here in your browser. I know the common questions, and I'll tell you honestly when something's beyond me. The real me listens on your own computer and answers anything.",
+  areYouReal: "That's my real voice, made by my own voice engine on Graham's PC. But this is a demo copy of me, running on a script in your browser. The live me runs on your own computer, with your own accounts, and he's rather quicker on his feet.",
+  // short answers about one part of what he does (what-edison-does-script.md)
+  capHome: "Home automation, yes. I read your whole smart home, the doors, the thermostat, the lights, and I only switch what you allow, one device at a time. In this demo, that's the TV.",
+  capSchedule: "I read your calendar, tell you what's next, keep your reminders, and give you the short version every morning. I don't move anything without asking.",
+  capEmail: "I read your inbox and flag what matters, so you don't have to dig. Sending anything always waits for your OK.",
+  capMemory: 'I keep a journal of every day, with weekly and monthly summaries, so I remember what we did and what you decided.',
+  capShop: 'A scout reads the trending products every morning, the good ones go into the pipeline, and I track every product from idea to ad. Spending always waits for you.',
+  capLook: 'Make me yours. Pick my look and colors, mix my voice from several, and write the lines I say when I wake up.',
+  capConnect: 'I plug into Gmail, Google Calendar, Drive, Notion and Home Assistant, all read only until you say otherwise.'
 };
 const PITCH = `<div class="card lime"><h4>Waitlist</h4><p>Early access, the build log, and first word when Edison is ready to install.</p>
   <div class="row"><a class="pill pill-pink pill-sm" href="#join">Join the crew</a></div></div>`;
@@ -312,18 +375,29 @@ const INTENTS = [
   [/\b(sign ?(me )?up|wait ?list|join|subscribe|count me in|early access)\b/, 'join'],
   [/\b(price|pricing|cost|how much|buy|purchase|pay|paid|subscription)\b/, 'price'],
   [/\b(mac|windows|install|download|iphone|android|linux|requirements?)\b/, 'install'],
+  [/\b(can you hear me|do you hear me|hear me|are you listening|listening to me|am i (talking|speaking) to you|you there|anyone there|hello\?+)/, 'hearMe'],
+  [/\b(are you (real|live|alive|human|a bot|a robot|an ai|ai|recorded|really edison|a person)|is (this|that) (really )?(you|real|live|recorded|ai|a recording)|real person|pre-?recorded|just a script)\b/, 'areYouReal'],
   [/\b(privacy|private|safe|safety|secure|security|my data|spy|record(ing)? me)\b/, 'privacy'],
   [/\b(jarvis|iron ?man|tony stark|movie|film)\b/, 'movie'],
   [/\b(who (made|built|created|designed) you|your (maker|creator|dad)|graham)\b/, 'maker'],
   [/\b(why .*edison|your name|named)\b/, 'whyName'],
+  [/\b(what (can|do|does) (you|he|edison) do|what (else )?can you do|everything you (can )?do|what are you (good|capable)|features|capabilit\w*|tour|show me around|what('?s| is) (it|he|edison) for|help me with)\b/, '@tour'],
   [/\b(are you ok(ay)?|self.?check|status report|diagnostic)\b/, '@check'],
   [/\b(how are you|how're you|how do you do|how('s| is) it going|you well)\b/, 'howru'],
   [/\b(who are you|what are you|what is edison|about yourself|introduce)\b/, 'who'],
   [/\b(launch plan|walk me through)\b/, '@long'],
+  [/\b((manage|handle|organi[sz]e|run|book|do|help with|keep) (my |the )?(schedule|calendar|appointments)|scheduling|remind\w*)\b/, 'capSchedule'],
   [/\b(what'?s on|my day|calendar|schedule|agenda|today|meetings?)\b/, '@today'],
   [/\b(team|checklist|launch list|delegate)\b/, '@team'],
   [/\b(ad|ads|boost|spend|budget|campaign)\b/, '@spend'],
   [/\b(tv|television|youtube|netflix)\b/, '@tv'],
+  [/\b(home automation|smart ?home|lights?|thermostat|lock|doors?|alexa|google home|home assistant|automat\w*)\b/, 'capHome'],
+  [/\b(schedul\w*|remind\w*|plan (my|the) week|appointments?|organi[sz]e)\b/, 'capSchedule'],
+  [/\b(e-?mails?|inbox|gmail|outlook)\b/, 'capEmail'],
+  [/\b(remember|memory|memories|journal|forget)\b/, 'capMemory'],
+  [/\b(shop|tiktok|products?|store|ecommerce|sales)\b/, 'capShop'],
+  [/\b(customi[sz]\w*|change (your|the) (look|voice)|themes?|colou?rs?|personali[sz]\w*|your voice|accent)\b/, 'capLook'],
+  [/\b(connect\w*|integrat\w*|plug ?ins?|notion|google drive|drive|apps?)\b/, 'capConnect'],
   [/\b(thanks|thank you|cheers|appreciate)\b/, 'thanks'],
   [/\b(love you|like you|(you'?re|you are) (great|awesome|cool|amazing|brilliant|funny|the best)|good job|well done|good boy|nice one)\b/, 'like'],
   [/\b(joke|funny|make me laugh)\b/, 'joke'],
@@ -349,6 +423,7 @@ async function talk(raw) {
   if (!awake) { if (!opening) await wake(); if (!awake) return; }
   const t = text.toLowerCase().replace(/^(hey|hi|ok|okay|yo)?[\s,]*edison\b[\s,.!?]*/, '').trim() || 'hello';
   const hit = intent(t);
+  if (hit === '@tour') return tour(text);
   if (hit[0] === '@') return play(hit.slice(1), null, text);
   clearAll(); const id = ++run; busy(true);
   asks.forEach((b) => b.setAttribute('aria-pressed', 'false'));
@@ -358,6 +433,7 @@ async function talk(raw) {
   later(() => {
     cue('ready');
     if (hit.startsWith('offline') || hit === 'weather') screen.innerHTML = OFFLINE; else if (PITCHY.has(hit)) screen.innerHTML = PITCH;
+    else if (CAPS[hit]) { showPage(CAPS[hit].page); screen.innerHTML = CAPS[hit].card(); }
     say(LINES[hit], id, () => { if (hit === 'join') { $('#join').scrollIntoView({ behavior: reduced ? 'auto' : 'smooth' }); later(() => $('#email').focus({ preventScroll: true }), 900); } afterTurn(id); }, hit);
   }, 1500);
 }

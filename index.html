@@ -26,7 +26,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800&family=Saira+Condensed:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }</script>
-<link rel="stylesheet" href="site.css?v=4">
+<link rel="stylesheet" href="site.css?v=6">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -143,6 +143,8 @@
       <div class="lc lc-pink console-talk">
         <span class="lc-label bt">SAY SOMETHING</span>
         <div class="asks" role="group" aria-label="Things to say to Edison">
+          <button class="ask bt" type="button" data-say="Can you hear me?">Can you hear me?</button>
+          <button class="ask bt" type="button" data-scene="tour">What can you do?</button>
           <button class="ask bt" type="button" data-scene="today">What's on today?</button>
           <button class="ask bt" type="button" data-scene="team">Have the GlowBop team check the launch list.</button>
           <button class="ask bt" type="button" data-scene="spend">Boost the GlowBop ad by $40.</button>
@@ -377,6 +379,6 @@
 <script src="edison-opening-sound.js"></script>
 <script src="edison-voice-fx.js"></script>
 <script src="edison-cues.js"></script>
-<script type="module" src="site.js?v=4"></script>
+<script type="module" src="site.js?v=6"></script>
 </body>
 </html>
