@@ -74,11 +74,11 @@ Ed edisonMood(vec3 nObj, int mood) {
     // Toned down for the website (Graham, 2026-10-28: "very in your face"): smaller, slower, softer than the board
     float pulse = 0.5 + 0.5 * sin(raw * 0.32 - t * 6.5);
     if (deg > 8.0 && deg < 52.0) e.c *= 0.88 + 0.24 * pulse;
-    if (raw < 56.0) e.size = 1.0 + 0.05 * pulse + talkBeat * 0.03;
+    if (raw < 56.0) e.size = 1.0 + 0.15 * pulse + talkBeat * 0.07;
     if (c > -0.2) {
       float wave = 0.5 + 0.5 * sin(raw * 0.2 - t * 5.5), crest = max(0.0, (wave - 0.8) / 0.2) * max(0.0, 1.0 - raw / 100.0);
       if (raw > 50.0 && crest > 0.0) e.c = mix(e.c, iris(mod(raw * 0.6 - t * 25.0, 48.0)), min(1.0, crest * 0.45)) * (1.0 + crest * 0.15);
-      e.lift = crest * 0.02 + talkBeat * 0.005; e.size = max(e.size, 1.0 + crest * 0.06);
+      e.lift = crest * 0.02 + talkBeat * 0.005; e.size = max(e.size, 1.0 + crest * 0.15);
     }
   } else if (mood == 2) { // listening: a cyan ring draws itself round his eye and swells with your voice
     // Toned down (Graham, 2026-10-23): a thinner, mostly cyan ring that stays near the eye instead of climbing his sides
