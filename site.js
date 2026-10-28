@@ -377,10 +377,10 @@ consoleEl.addEventListener('click', (e) => { if (!awake && !opening && !e.target
 document.querySelectorAll('a[data-wake]').forEach((a) => a.addEventListener('click', () => { if (!awake && !opening) wake(); }));
 
 // ------------------------------------------------------------ the crew list form
-// Not connected yet: until WAITLIST_ENDPOINT is set, nothing is sent anywhere and the page says so.
-// To switch it on, set it to the email tool's form address (for Kit: https://app.kit.com/forms/<form id>/subscriptions).
+// Connected to Kit's "Edison crew" form (double opt-in; after confirming, Kit sends people to /crew/).
+// Set WAITLIST_ENDPOINT to '' to go back to preview mode, where nothing is sent.
 // It sends email_address and fields[first] (the "what would yours do first" answer).
-const WAITLIST_ENDPOINT = '';
+const WAITLIST_ENDPOINT = 'https://app.kit.com/forms/10106852/subscriptions';
 $('#joinForm').addEventListener('submit', async (e) => {
   e.preventDefault();
   const email = $('#email'), note = $('#formNote'), btn = $('#joinForm button');
