@@ -2,7 +2,7 @@
 // mounted into any box on the page. Transparent background so the page's own sky shows through.
 // Pauses itself when scrolled out of view, to save phone batteries.
 import * as THREE from 'three';
-import { GLSL, makeBrain } from './edison-core.js';
+import { GLSL, makeBrain } from './edison-core.js?v=2';
 
 export function mountGlobe(el) {
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
