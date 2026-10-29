@@ -1,7 +1,7 @@
 // Edison website: two globes (hero and demo), the scripted "Try him" demo with made-up data and his board, sound cue
 // buttons, the first-touch hello, and the sign-up form (sent to Kit).
 import { mountGlobe } from './edison-globe.js?v=4';
-import { TALK, SCENE_NEXT, INTENTS } from './edison-talk.js?v=10';
+import { TALK, SCENE_NEXT, INTENTS, AFFIRM, DENY, REPEAT, YES, FIRST } from './edison-talk.js?v=11';
 
 const $ = (s) => document.querySelector(s);
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -105,7 +105,7 @@ const SCENES = {
 const SCENE_PAGE = { today: 'life', team: 'glowbop', spend: 'mission', tv: 'home', long: 'glowbop', check: 'ops' };
 const himLine = $('#himLine'), youLine = $('#youLine'), srLine = $('#srLine'), stateLine = $('#stateLine'), screen = $('#screen'), cutIn = $('#cutIn');
 const asks = [...document.querySelectorAll('.ask')];
-let run = 0, timers = [], speaking = null;
+let run = 0, timers = [], speaking = null, lastSaid = null;
 
 function later(fn, ms) { const id = setTimeout(fn, ms); timers.push(id); return id; }
 function clearAll() { timers.forEach(clearTimeout); timers = []; stopVoice(); speaking = null; }
@@ -120,7 +120,7 @@ function say(text, id, done, clipId) {
   let i = 0, pace = reduced ? 0 : 340, ended = false, voiced = false;
   mood('speaking'); state('SPEAKING', 'talk'); cutIn.disabled = false;
   himLine.textContent = '';
-  speaking = { text, words, at: () => i };
+  speaking = { text, words, at: () => i }; lastSaid = { text, clipId }; // for "say that again"
   const finish = () => {
     if (id !== run || ended) return;
     ended = true; himLine.textContent = text; srLine.textContent = text;
@@ -374,22 +374,45 @@ function chips(list) {
     (list || []).forEach((t) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.textContent = t; b.onclick = () => talk(t); box.append(b); });
   });
 }
-let turns = 0, visitor = '';
+// pending: what his last line asked for. { yes: id } after an offer ("Shall I give you the tour?"), so a plain "yes"
+// carries on; { first: true } after his question back ("what would you hand me first?").
+let turns = 0, visitor = '', pending = null, askedBack = false, lastNext = null;
 function intent(text) {
   for (const [re, id] of INTENTS) { const m = text.match(re); if (m) return { id, m }; }
   return { id: 'other', m: null };
 }
 // After each finished turn, every so often he tells you how well you two get along, and points to the list
 function afterTurn(id, next) {
-  busy(false); turns++; chips(next);
-  const r = { 3: 'rapport1', 7: 'rapport2', 12: 'rapport3' }[turns];
+  busy(false); turns++; chips(next); lastNext = next;
+  // after the second turn he asks the visitor something back (Graham, 2026-10-29: make it a conversation)
+  if (turns === 2 && !askedBack) {
+    askedBack = true;
+    later(() => { if (id !== run) return; busy(true); cue('ready'); const p = pickLine('askBack'); say(p.text, id, () => { busy(false); pending = { first: true }; chips(TALK.askBack.next); }, p.clip); }, 1100);
+    return;
+  }
+  const r = { 4: 'rapport1', 8: 'rapport2', 13: 'rapport3' }[turns];
   if (r) later(() => { if (id !== run) return; busy(true); cue('ready'); screen.innerHTML = PITCH; say(LINES[r], id, () => { busy(false); chips(['Sign me up', ...(next || []).slice(0, 2)]); }, r); }, 1100);
 }
 async function talk(raw) {
   const text = String(raw || '').trim().slice(0, 160); if (!text) return;
   if (!awake) { if (!opening) await wake(); if (!awake) return; }
   const t = text.toLowerCase().replace(/^(hey|hi|ok|okay|yo)?[\s,]*edison\b[\s,.!?]*/, '').trim() || 'hello';
-  const { id: hit, m } = intent(t); scene = null;
+  // "say that again": he repeats his last line, in his voice
+  if (REPEAT.test(t) && lastSaid) {
+    const l = lastSaid; clearAll(); const id = ++run; busy(true); chips([]); pending = null;
+    youLine.hidden = false; youLine.textContent = text;
+    return say(l.text, id, () => { busy(false); chips(lastNext || ['What can you do?', 'Tell me a joke']); }, l.clipId);
+  }
+  // a short yes or no, or an answer to his question back, goes with what he just said
+  const pend = pending; pending = null;
+  let { id: hit, m } = intent(t), firstAnswer = null; scene = null;
+  const f = pend && pend.first && FIRST.find(([re]) => re.test(t));
+  if (f) { hit = f[1]; firstAnswer = f[2]; }
+  else if (AFFIRM.test(t)) hit = (pend && pend.yes) || 'affirm';
+  else if (DENY.test(t)) hit = 'deny';
+  else if (pend && pend.first && hit === 'other') { hit = 'firstOther'; firstAnswer = text; }
+  if (firstAnswer) { const f = $('#first'); if (f && !f.value.trim()) f.value = firstAnswer; }
+  if (hit === 'askBack') askedBack = true;
   if (hit === '@tour') return tour(text);
   if (hit[0] === '@') return play(hit.slice(1), null, text);
   clearAll(); const id = ++run; busy(true); chips([]);
@@ -407,6 +430,9 @@ async function talk(raw) {
     else {
       const p = pickLine(hit); line = p.text; clipId = p.clip; next = TALK[hit].next;
       if (hit === 'name' && m) { visitor = m[2].trim().split(/\s+/)[0].replace(/^./, (c) => c.toUpperCase()); line = `Lovely to meet you, ${visitor}. I'll remember that.`; clipId = null; }
+      if (hit === 'myName' && visitor) { line = `You're ${visitor}. I never forget a name.`; clipId = null; }
+      if (YES[clipId]) pending = { yes: YES[clipId] };
+      if (hit === 'askBack') pending = { first: true };
     }
     if (PITCHY.has(hit)) screen.innerHTML = PITCH;
     else if (CAPS[hit]) { showPage(CAPS[hit].page); screen.innerHTML = CAPS[hit].card(); }
@@ -453,7 +479,7 @@ if (window.EdisonIcon) {
 // ------------------------------------------------------------ the opening: tap Wake Edison and he turns on, like the real board
 // A single dot wakes, beats twice, bursts into his full globe, his name writes itself, he winks, says hello, and the
 // board's pieces power on one by one with the LCARS flicker. Sounds are the board's own (edison-opening-sound.js).
-const consoleEl = $('#console'), demoGlobe = $('#demoGlobe'), demoMark = $('#demoMark'), wakeKey = $('#wakeKey');
+const heroChips = $('#heroChips'), consoleEl = $('#console'), demoGlobe = $('#demoGlobe'), demoMark = $('#demoMark'), wakeKey = $('#wakeKey');
 let awake = false, opening = false;
 const SND = (name) => { if (soundOn && window.EdisonOpeningSound) window.EdisonOpeningSound.play(name); };
 const sayP = (text, id, clipId) => new Promise((r) => say(text, id, r, clipId));
@@ -463,7 +489,7 @@ const scaleGlobe = (s) => { demoGlobe.style.transform = `scale(${s})`; demoGlobe
 async function wake() {
   if (awake || opening) return;
   opening = true; clearAll(); const id = ++run; busy(true);
-  wakeKey.hidden = true; youLine.hidden = true;
+  wakeKey.hidden = true; youLine.hidden = true; heroChips.hidden = true;
   vctx(); preloadVoice(); // sound is allowed now (this is the visitor's tap), so fetch his lines while he wakes
   if (window.EdisonOpeningSound && soundOn) { try { await window.EdisonOpeningSound.ready(); } catch (e) {} }
   const pieces = [...consoleEl.querySelectorAll('.bt')];
@@ -535,7 +561,19 @@ async function firstTouch(e) {
     if (!awake && !opening) { bubble.classList.add('long'); bubble.textContent = VOICE.list[k].caption; await playClip(k); }
   }
   try { hero && hero.setMood('happy'); setTimeout(() => hero && hero.setMood('idle'), 1200); } catch (err) {}
-  if (!awake && !opening) setTimeout(() => bubble.classList.remove('on'), 2200); else bubble.classList.remove('on');
+  if (awake || opening) return bubble.classList.remove('on');
+  // then three things to say to him, in place of the bubble: a tap scrolls to the demo, wakes him and asks it
+  setTimeout(() => {
+    bubble.classList.remove('on');
+    if (awake || opening) return;
+    heroChips.innerHTML = '';
+    ['What can you do?', 'Are you real?', 'Tell me a joke'].forEach((t) => {
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.textContent = t;
+      b.onclick = () => { heroChips.hidden = true; consoleEl.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' }); talk(t); };
+      heroChips.append(b);
+    });
+    heroChips.hidden = false;
+  }, 1200);
 }
 TOUCH.forEach((t) => document.addEventListener(t, firstTouch, true));
 

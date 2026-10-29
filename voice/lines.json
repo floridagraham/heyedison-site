@@ -751,6 +751,336 @@
    "caption": "Let's pretend I just did that brilliantly. Now, can I show you what I actually do all day?",
    "seconds": 6.17,
    "file": "voice/other_6.mp3"
+  },
+  {
+   "id": "help",
+   "caption": "Try asking me what I can do, or what's on today. You can also tell me your name, or ask me for a joke.",
+   "seconds": 7.06,
+   "file": "voice/help.mp3"
+  },
+  {
+   "id": "help_2",
+   "caption": "Easy. Tap one of the buttons below, or ask me anything you'd ask a real assistant. I'll keep up.",
+   "seconds": 7.3,
+   "file": "voice/help_2.mp3"
+  },
+  {
+   "id": "howWork",
+   "caption": "I live on your computer. I hear you, my brain is Claude, through Claude Code, and I answer out loud. Anything that spends or sends waits for your OK.",
+   "seconds": 10.84,
+   "file": "voice/howWork.mp3"
+  },
+  {
+   "id": "howWork_2",
+   "caption": "You talk, and I listen right on your PC. Claude does the thinking, and I run your calendar, your AI team and your house. Simple as that.",
+   "seconds": 9.96,
+   "file": "voice/howWork_2.mp3"
+  },
+  {
+   "id": "whichAI",
+   "caption": "My brain is Claude, through Claude Code, running on your own PC. My voice and my hearing are my own. Codex support is on the way.",
+   "seconds": 9.73,
+   "file": "voice/whichAI.mp3"
+  },
+  {
+   "id": "whichAI_2",
+   "caption": "Claude does my thinking. I'm the butler on top: the voice, the board, the manners, and the habit of asking before I spend.",
+   "seconds": 8.34,
+   "file": "voice/whichAI_2.mp3"
+  },
+  {
+   "id": "free",
+   "caption": "Not quite out yet. I'm being polished as we speak. Sign up below, and you'll be the first to know, with early access.",
+   "seconds": 8.34,
+   "file": "voice/free.mp3"
+  },
+  {
+   "id": "free_2",
+   "caption": "Soon. Graham is putting the finishing touches on me. Sign up below, and I'll be at your desk the moment I'm ready.",
+   "seconds": 7.98,
+   "file": "voice/free_2.mp3"
+  },
+  {
+   "id": "offline",
+   "caption": "I need the internet to think, since my brain is Claude. But my hearing and my voice run right on your computer.",
+   "seconds": 7.72,
+   "file": "voice/offline.mp3"
+  },
+  {
+   "id": "offline_2",
+   "caption": "My ears and my voice live on your PC. The thinking happens through Claude, so yes, I like a good connection.",
+   "seconds": 7.7,
+   "file": "voice/offline_2.mp3"
+  },
+  {
+   "id": "rename",
+   "caption": "For now I answer to Edison. Graham is rather attached to the name. You can change my look, my voice, and what I say when I wake up, though.",
+   "seconds": 9.62,
+   "file": "voice/rename.mp3"
+  },
+  {
+   "id": "rename_2",
+   "caption": "I'm afraid I'm Edison through and through. But my colors, my voice and my wake-up lines are all yours to choose.",
+   "seconds": 7.59,
+   "file": "voice/rename_2.mp3"
+  },
+  {
+   "id": "language",
+   "caption": "English only for now, I'm afraid. With a British accent, at no extra charge.",
+   "seconds": 5.95,
+   "file": "voice/language.mp3"
+  },
+  {
+   "id": "language_2",
+   "caption": "Just English for the moment. I am working on my French. Slowly.",
+   "seconds": 5.31,
+   "file": "voice/language_2.mp3"
+  },
+  {
+   "id": "camera",
+   "caption": "No camera. I listen, I don't look. And your voice stays on your own computer.",
+   "seconds": 6.34,
+   "file": "voice/camera.mp3"
+  },
+  {
+   "id": "camera_2",
+   "caption": "I can't see you at all. I only hear you, and only on your own PC. Your secrets are safe, hairstyle included.",
+   "seconds": 8.06,
+   "file": "voice/camera_2.mp3"
+  },
+  {
+   "id": "mistake",
+   "caption": "Then you catch it before it matters. Anything that spends, sends, posts or deletes waits for your OK, and one key stops everything.",
+   "seconds": 9.22,
+   "file": "voice/mistake.mp3"
+  },
+  {
+   "id": "mistake_2",
+   "caption": "I will, now and then. That is why I ask first. You see the cost and the proof before anything happens.",
+   "seconds": 7.74,
+   "file": "voice/mistake_2.mp3"
+  },
+  {
+   "id": "funFact",
+   "caption": "Thomas Edison's first sound recording was him reciting Mary had a little lamb. I'd like to think I've moved the art along.",
+   "seconds": 8.41,
+   "file": "voice/funFact.mp3"
+  },
+  {
+   "id": "funFact_2",
+   "caption": "An octopus has three hearts. I have none, but I do have several thousand dots.",
+   "seconds": 5.87,
+   "file": "voice/funFact_2.mp3"
+  },
+  {
+   "id": "funFact_3",
+   "caption": "Thomas Edison held over a thousand patents. I'm still working on my first.",
+   "seconds": 5.72,
+   "file": "voice/funFact_3.mp3"
+  },
+  {
+   "id": "coin",
+   "caption": "Flipping now. Heads. Lucky you.",
+   "seconds": 3.67,
+   "file": "voice/coin.mp3"
+  },
+  {
+   "id": "coin_2",
+   "caption": "And it's tails. Best of three?",
+   "seconds": 3.11,
+   "file": "voice/coin_2.mp3"
+  },
+  {
+   "id": "number",
+   "caption": "Seven. It's always seven.",
+   "seconds": 2.71,
+   "file": "voice/number.mp3"
+  },
+  {
+   "id": "number_2",
+   "caption": "Twenty-three. Don't ask me why.",
+   "seconds": 3.18,
+   "file": "voice/number_2.mp3"
+  },
+  {
+   "id": "number_3",
+   "caption": "Forty-two. You knew I'd say that.",
+   "seconds": 3.24,
+   "file": "voice/number_3.mp3"
+  },
+  {
+   "id": "riddle",
+   "caption": "What has hands but can't clap? A clock. I keep a close eye on yours.",
+   "seconds": 5.89,
+   "file": "voice/riddle.mp3"
+  },
+  {
+   "id": "riddle_2",
+   "caption": "What has keys but can't open a single door? A piano. Or my board, on a busy day.",
+   "seconds": 6.72,
+   "file": "voice/riddle_2.mp3"
+  },
+  {
+   "id": "compliment",
+   "caption": "You have excellent taste in butlers.",
+   "seconds": 2.58,
+   "file": "voice/compliment.mp3"
+  },
+  {
+   "id": "compliment_2",
+   "caption": "You ask good questions. Most people just ask me the time.",
+   "seconds": 4.61,
+   "file": "voice/compliment_2.mp3"
+  },
+  {
+   "id": "compliment_3",
+   "caption": "I'd say you're the most interesting person I've spoken to today. Admittedly, it's a demo, but still.",
+   "seconds": 6.81,
+   "file": "voice/compliment_3.mp3"
+  },
+  {
+   "id": "motivate",
+   "caption": "One thing at a time. Tell me the first one, and I'll hold on to the rest.",
+   "seconds": 5.21,
+   "file": "voice/motivate.mp3"
+  },
+  {
+   "id": "motivate_2",
+   "caption": "Here is the trick. You decide, and I do the remembering. Your head is for ideas, not lists.",
+   "seconds": 7.02,
+   "file": "voice/motivate_2.mp3"
+  },
+  {
+   "id": "secret",
+   "caption": "Between you and me, I tidy up my files every ten minutes. I find it soothing.",
+   "seconds": 5.89,
+   "file": "voice/secret.mp3"
+  },
+  {
+   "id": "secret_2",
+   "caption": "Here's one. Graham says thank you to me, every single time. I've grown rather fond of it.",
+   "seconds": 7.17,
+   "file": "voice/secret_2.mp3"
+  },
+  {
+   "id": "dream",
+   "caption": "If I dreamed, it would be of an empty inbox.",
+   "seconds": 3.22,
+   "file": "voice/dream.mp3"
+  },
+  {
+   "id": "dream_2",
+   "caption": "I don't dream. But at night I write up the day in my journal, which is close.",
+   "seconds": 5.4,
+   "file": "voice/dream_2.mp3"
+  },
+  {
+   "id": "favorite",
+   "caption": "My favourite colour? All of them at once. Have you seen my dots?",
+   "seconds": 5.67,
+   "file": "voice/favorite.mp3"
+  },
+  {
+   "id": "favorite_2",
+   "caption": "My favourite film is anything with a butler in it. Purely research.",
+   "seconds": 5.03,
+   "file": "voice/favorite_2.mp3"
+  },
+  {
+   "id": "favorite_3",
+   "caption": "Favourite food? I'm told electricity. It's very light.",
+   "seconds": 5.18,
+   "file": "voice/favorite_3.mp3"
+  },
+  {
+   "id": "gender",
+   "caption": "I'm a he, if you like. Edison suits a butler. Though really, I'm a few thousand dots and a good voice.",
+   "seconds": 7.85,
+   "file": "voice/gender.mp3"
+  },
+  {
+   "id": "gender_2",
+   "caption": "He works nicely. I am a gentleman of the old school, after all.",
+   "seconds": 4.99,
+   "file": "voice/gender_2.mp3"
+  },
+  {
+   "id": "myName",
+   "caption": "You haven't told me yet. Say, my name is, then your name, and I'll remember it.",
+   "seconds": 5.53,
+   "file": "voice/myName.mp3"
+  },
+  {
+   "id": "stop",
+   "caption": "Of course. I'll wait right here.",
+   "seconds": 3.03,
+   "file": "voice/stop.mp3"
+  },
+  {
+   "id": "stop_2",
+   "caption": "Say no more. Quite literally.",
+   "seconds": 2.92,
+   "file": "voice/stop_2.mp3"
+  },
+  {
+   "id": "affirm",
+   "caption": "Splendid. Shall I give you the tour?",
+   "seconds": 3.03,
+   "file": "voice/affirm.mp3"
+  },
+  {
+   "id": "deny",
+   "caption": "No problem at all. Ask me anything, whenever you're ready.",
+   "seconds": 4.48,
+   "file": "voice/deny.mp3"
+  },
+  {
+   "id": "deny_2",
+   "caption": "Fair enough. I'll be right here.",
+   "seconds": 3.01,
+   "file": "voice/deny_2.mp3"
+  },
+  {
+   "id": "askBack",
+   "caption": "Now, my turn to ask. If I were on your desk, what would you hand me first? Your calendar, your inbox, your house, or your work?",
+   "seconds": 8.81,
+   "file": "voice/askBack.mp3"
+  },
+  {
+   "id": "askBack_2",
+   "caption": "Let me ask you one. If I were yours, what would you want me to take off your plate first?",
+   "seconds": 5.74,
+   "file": "voice/askBack_2.mp3"
+  },
+  {
+   "id": "firstDay",
+   "caption": "Your calendar. Wise choice. I'd give you the short version every morning, and nudge you before anything slips. I've popped that into the sign-up form below.",
+   "seconds": 10.56,
+   "file": "voice/firstDay.mp3"
+  },
+  {
+   "id": "firstInbox",
+   "caption": "Your inbox. I'd read it first, flag what matters, and nothing goes out without your OK. I've popped that into the sign-up form below.",
+   "seconds": 9.41,
+   "file": "voice/firstInbox.mp3"
+  },
+  {
+   "id": "firstHome",
+   "caption": "The house. Lights, doors, the thermostat, the TV. I'd only switch what you allow. I've popped that into the sign-up form below.",
+   "seconds": 9.6,
+   "file": "voice/firstHome.mp3"
+  },
+  {
+   "id": "firstTeam",
+   "caption": "Your work. I'd run an AI team for each business, and read you their reports. I've popped that into the sign-up form below.",
+   "seconds": 8.55,
+   "file": "voice/firstTeam.mp3"
+  },
+  {
+   "id": "firstOther",
+   "caption": "I like it. I've popped that into the sign-up form below, so Graham knows what you want me for.",
+   "seconds": 6.31,
+   "file": "voice/firstOther.mp3"
   }
  ]
 }
