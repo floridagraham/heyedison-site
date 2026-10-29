@@ -49,7 +49,8 @@ function playClip(id) {
     if (!buf) return done();
     const c = vctx(), src = c.createBufferSource(); src.buffer = buf;
     (window.EdisonVoiceFX ? window.EdisonVoiceFX.wrap(c, src) : src).connect(c.destination);
-    src.onended = () => done(); src.start();
+    VOICE.src = src; // so stopVoice() can cut it off
+    src.onended = () => { if (VOICE.src === src) VOICE.src = null; done(); }; src.start();
   }));
 }
 
@@ -522,11 +523,19 @@ async function firstTouch(e) {
   try { await c.resume(); } catch (err) {}
   if (c.state !== 'running' || helloed || awake || opening) return; // no sound allowed yet: try again on the next touch
   helloDone();
-  const bubble = $('#heroSay'); bubble.textContent = "Hello, I'm Edison."; bubble.classList.add('on');
+  const bubble = $('#heroSay'); bubble.classList.remove('long'); bubble.textContent = "Hello, I'm Edison."; bubble.classList.add('on');
   try { hero && hero.setMood('speaking'); } catch (err) {}
   await playClip('hello');
+  // then one of four short intros, picked at random (Graham, 2026-10-29: he should keep talking after hello).
+  // Waking the demo mid-line stops it, since his opening takes over.
+  const more = ['helloA', 'helloB', 'helloC', 'helloD'].filter((k) => VOICE.list && VOICE.list[k]);
+  if (more.length && !awake && !opening) {
+    const k = more[Math.floor(Math.random() * more.length)];
+    await wait(250);
+    if (!awake && !opening) { bubble.classList.add('long'); bubble.textContent = VOICE.list[k].caption; await playClip(k); }
+  }
   try { hero && hero.setMood('happy'); setTimeout(() => hero && hero.setMood('idle'), 1200); } catch (err) {}
-  setTimeout(() => bubble.classList.remove('on'), 2200);
+  if (!awake && !opening) setTimeout(() => bubble.classList.remove('on'), 2200); else bubble.classList.remove('on');
 }
 TOUCH.forEach((t) => document.addEventListener(t, firstTouch, true));
 

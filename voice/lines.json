@@ -15,6 +15,30 @@
    "file": "voice/hello.mp3"
   },
   {
+   "id": "helloA",
+   "caption": "I'm the AI butler on your desk. I work with Claude Code on your PC, and Codex is coming soon. Go ahead, give me a try.",
+   "seconds": 9.26,
+   "file": "voice/helloA.mp3"
+  },
+  {
+   "id": "helloB",
+   "caption": "I'm an AI butler who lives on your computer. I run your day, your AI helpers and your house, all by voice. Scroll down and say hello.",
+   "seconds": 10.03,
+   "file": "voice/helloB.mp3"
+  },
+  {
+   "id": "helloC",
+   "caption": "Think of me as a butler for your desk. You talk, I take care of it, with Claude Code doing the heavy lifting. Go on, ask me something.",
+   "seconds": 9.15,
+   "file": "voice/helloC.mp3"
+  },
+  {
+   "id": "helloD",
+   "caption": "I'm the voice on your PC that gets things done. Your calendar, your projects, your lights. Try me. Ask me anything.",
+   "seconds": 9.09,
+   "file": "voice/helloD.mp3"
+  },
+  {
    "id": "ready",
    "caption": "Let me get your board ready.",
    "seconds": 2.18,
